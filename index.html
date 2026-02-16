@@ -1763,7 +1763,7 @@
 
       const label = (state.mode === "revealed") ? p.name : p.anon;
       const visibleLabel = p.name;
-      const sub = (state.mode === "revealed") ? p.role : t("teamMember");
+      const sub = t("teamMember");
       const alt = (state.mode === "revealed") ? p.name : p.anon;
 
       card.innerHTML = `
@@ -1814,7 +1814,7 @@
         const selected = state.selectedPersonId === assignedP.id;
         const label = (state.mode === "revealed") ? assignedP.name : assignedP.anon;
         const visibleLabel = assignedP.name;
-        const sub = (state.mode === "revealed") ? assignedP.role : t("teamMember");
+        const sub = t("teamMember");
         const alt = (state.mode === "revealed") ? assignedP.name : assignedP.anon;
 
         slotInner = `
