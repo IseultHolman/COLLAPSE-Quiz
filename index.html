@@ -1,15 +1,1508 @@
 <!doctype html>
-<html lang="en">
+<html lang="de">
 <head>
-  <meta charset="utf-8">
-  <title>Test</title>
-  <meta name="viewport" content="width=device-width, initial-scale=1">
+  <meta charset="utf-8" />
+  <meta name="viewport" content="width=device-width,initial-scale=1,viewport-fit=cover" />
+  <meta name="color-scheme" content="light" />
+  <title>COLLAPSE — Poster Match Quiz</title>
   <style>
-    body { font-family: system-ui, sans-serif; margin: 40px; }
+    :root{
+      --navy:#14315B;
+      --gold:#D9BA24;
+      --olive:#715E0C;
+      --corn:#146993;
+      --white:#FFFFFF;
+
+      --paper:#f7f6f0;
+      --paper2:#f2f1ea;
+      --ink:#101316;
+      --muted:#5f6670;
+      --line: rgba(20,49,91,.14);
+
+      --r12:12px;
+      --r16:16px;
+      --r20:20px;
+      --r24:24px;
+
+      --shadow1: 0 12px 28px rgba(0,0,0,.08);
+      --shadow2: 0 6px 16px rgba(0,0,0,.06);
+
+      --focus: 0 0 0 3px rgba(20,105,147,.20);
+      --max: 1260px;
+
+      --headerH: 56px;
+      --pad: 14px;
+      --gap: 12px;
+    }
+
+    *{box-sizing:border-box}
+    html,body{height:100%}
+    body{
+      margin:0;
+      position: relative;
+      overflow:hidden;
+      font-family: ui-sans-serif, system-ui, -apple-system, Segoe UI, Roboto, Helvetica, Arial, "Apple Color Emoji","Segoe UI Emoji";
+      color:var(--ink);
+      background:
+        radial-gradient(220px 220px at 18% 30%, rgba(217,186,36,.14), transparent 70%),
+        radial-gradient(260px 260px at 55% 36%, rgba(20,105,147,.16), transparent 72%),
+        radial-gradient(220px 220px at 78% 22%, rgba(20,49,91,.10), transparent 70%),
+        linear-gradient(180deg,
+          rgba(20,105,147,.14) 0%,
+          rgba(247,246,240,1) 42%,
+          rgba(217,186,36,.12) 100%);
+    }
+
+    a{color:var(--corn); text-decoration:none}
+    a:hover{text-decoration:underline}
+
+    header{
+      height: var(--headerH);
+      background: var(--white);
+      border-bottom: 1px solid rgba(20,49,91,.10);
+      display:flex;
+      align-items:center;
+    }
+    .topbar{
+      width: min(var(--max), calc(100% - 2*var(--pad)));
+      margin: 0 auto;
+      display:flex;
+      align-items:center;
+      justify-content:space-between;
+      gap: 12px;
+    }
+    .brand{
+      display:flex;
+      align-items:center;
+      gap: 12px;
+      min-width: 260px;
+      margin-bottom: 8px;
+    }
+    .logoBox{
+      flex:0 0 auto;
+    }
+    .logoBox img{
+      height: 34px;
+      width: auto;
+      display: block;
+    }
+    .brandText{min-width:0}
+    .brandText h1{
+      margin:0;
+      font-size: 24px;
+      color: var(--navy);
+      letter-spacing:.2px;
+    }
+    .hdrRight{
+      display:flex;
+      align-items:center;
+      gap: 10px;
+      flex-wrap:wrap;
+      justify-content:flex-end;
+    }
+    .nav{
+      display:flex;
+      gap: 10px;
+      align-items:center;
+      flex-wrap:wrap;
+    }
+    .nav a{
+      font-size: 12.5px;
+      color: var(--navy);
+      padding: 6px 8px;
+      border-radius: 10px;
+    }
+    .nav a:hover{background: rgba(20,49,91,.05); text-decoration:none}
+    .nav a:focus-visible{outline:none; box-shadow: var(--focus)}
+
+    .langBtn{
+      appearance:none;
+      border: 1px solid rgba(20,49,91,.14);
+      background: rgba(20,105,147,.04);
+      color: var(--navy);
+      border-radius: 999px;
+      padding: 7px 10px;
+      font-size: 12.5px;
+      cursor:pointer;
+      white-space:nowrap;
+    }
+    .langBtn:focus-visible{outline:none; box-shadow: var(--focus)}
+
+    .shell{
+      height: 100dvh;
+      display:flex;
+      flex-direction:column;
+      min-height: 0;
+    }
+    .wrap{
+      width: min(var(--max), calc(100% - 2*var(--pad)));
+      margin: 0 auto;
+      padding: var(--pad) 0 var(--pad);
+      display:flex;
+      flex-direction:column;
+      gap: var(--gap);
+      height: 100%;
+      min-height: 0;
+    }
+
+    .hero{
+      flex: 0 0 auto;
+      display:flex;
+      align-items:flex-end;
+      justify-content:space-between;
+      gap: 12px;
+      flex-wrap:wrap;
+    }
+    .heroLeft{min-width: 320px; max-width: 92ch;}
+    .hero h1{
+      margin:0;
+      font-size: 24px;
+      color: var(--navy);
+      letter-spacing:.2px;
+    }
+    .hero p{
+      margin:4px 0 0;
+      color: var(--muted);
+      font-size: 12.8px;
+      line-height: 1.25;
+    }
+    .controls{
+      display:flex;
+      gap: 10px;
+      flex-wrap:wrap;
+      justify-content:flex-end;
+      align-items:center;
+    }
+    .btn{
+      appearance:none;
+      border: 1px solid rgba(20,49,91,.14);
+      background: var(--white);
+      color: var(--ink);
+      font-size: 12.5px;
+      padding: 8px 12px;
+      border-radius: 999px;
+      cursor:pointer;
+      user-select:none;
+      box-shadow: 0 1px 0 rgba(0,0,0,.02);
+    }
+    .btn:hover{background: rgba(0,0,0,.02)}
+    .btn:focus-visible{outline:none; box-shadow: var(--focus)}
+    .btn.primary{
+      border-color: rgba(20,49,91,.20);
+      background: linear-gradient(180deg, rgba(20,49,91,.06), rgba(20,49,91,.02));
+      color: var(--navy);
+      font-weight: 750;
+    }
+    .btn.accent{
+      border-color: rgba(217,186,36,.50);
+      background: linear-gradient(180deg, rgba(217,186,36,.18), rgba(217,186,36,.06));
+      color: var(--navy);
+      font-weight: 750;
+    }
+
+    .main{
+      flex: 1 1 auto;
+      min-height: 0;
+      display:grid;
+      grid-template-columns: 320px 1fr;
+      gap: var(--gap);
+    }
+
+    .panel{
+      background: rgba(255,255,255,.92);
+      border: 1px solid rgba(20,105,147,.18);
+      border-radius: var(--r24);
+      box-shadow: var(--shadow1);
+      overflow:hidden;
+      min-height: 0;
+      display:flex;
+      flex-direction:column;
+    }
+    .panelHead{
+      padding: 10px 12px;
+      border-bottom: 1px solid rgba(20,49,91,.10);
+      display:flex;
+      align-items:center;
+      justify-content:space-between;
+      gap: 10px;
+      background: linear-gradient(180deg, rgba(20,105,147,.06), rgba(255,255,255,0));
+      flex: 0 0 auto;
+    }
+    .panelHead h2{
+      margin:0;
+      font-size: 12px;
+      letter-spacing: .18em;
+      text-transform: uppercase;
+      color: var(--navy);
+    }
+    .statsRow{
+      display:flex;
+      gap: 8px;
+      flex-wrap:wrap;
+      justify-content:flex-end;
+      color: var(--muted);
+      font-size: 12px;
+    }
+    .pill{
+      border: 1px solid rgba(20,49,91,.12);
+      background: rgba(0,0,0,.012);
+      padding: 5px 9px;
+      border-radius: 999px;
+      font-variant-numeric: tabular-nums;
+      white-space: nowrap;
+    }
+    .panelBody{
+      padding: 10px 12px;
+      min-height: 0;
+      flex: 1 1 auto;
+      overflow:hidden;
+    }
+    .peoplePanel .panelBody{
+      overflow:auto;
+    }
+
+    .peopleList{
+      display:grid;
+      gap: 10px;
+    }
+    .person{
+      display:flex;
+      align-items:center;
+      gap: 10px;
+      border-radius: var(--r16);
+      border: 1px solid rgba(20,105,147,.26);
+      background: rgba(20,105,147,.04);
+      padding: 10px;
+      cursor: pointer;
+      user-select:none;
+      touch-action: none;
+      min-width:0;
+    }
+    .person[aria-selected="true"]{
+      border-color: rgba(217,186,36,.70);
+      background: rgba(217,186,36,.10);
+      box-shadow: 0 0 0 3px rgba(217,186,36,.18);
+    }
+    .avatar{
+      width: 40px; height: 40px;
+      border-radius: 14px;
+      overflow:hidden;
+      border: 1px solid rgba(0,0,0,.08);
+      background:
+        radial-gradient(circle at 30% 30%, rgba(217,186,36,.18), transparent 60%),
+        radial-gradient(circle at 70% 70%, rgba(20,105,147,.16), transparent 60%);
+      flex:0 0 auto;
+    }
+    .avatar img{width:100%; height:100%; object-fit:cover; display:block}
+    .pMeta{min-width:0}
+    .pLabel{
+      margin:0;
+      font-size: 13px;
+      font-weight: 760;
+      color: var(--navy);
+      white-space:nowrap;
+      overflow:hidden;
+      text-overflow:ellipsis;
+    }
+    .pSub{
+      margin:2px 0 0;
+      font-size: 12px;
+      color: var(--muted);
+      white-space:nowrap;
+      overflow:hidden;
+      text-overflow:ellipsis;
+    }
+    .websiteLink{
+      display: inline-block;
+      margin-top: 4px;
+      font-size: 11px;
+      color: var(--corn);
+      text-decoration: none;
+      padding: 2px 6px;
+      background: rgba(20,105,147,.08);
+      border-radius: 4px;
+      transition: background 0.2s;
+    }
+    .websiteLink:hover{
+      background: rgba(20,105,147,.14);
+      text-decoration: underline;
+    }
+    .chip{
+      margin-left:auto;
+      font-size: 11px;
+      color: var(--muted);
+      border: 1px solid rgba(20,49,91,.12);
+      border-radius: 999px;
+      padding: 4px 8px;
+      background: rgba(255,255,255,.88);
+      white-space:nowrap;
+    }
+
+    .posterGrid{
+      height: 100%;
+      min-height: 0;
+      display:grid;
+      grid-template-columns: repeat(2, minmax(0, 1fr));
+      grid-template-rows: repeat(2, minmax(0, 1fr));
+      gap: var(--gap);
+    }
+    .poster{
+      border-radius: var(--r24);
+      border: 1px solid rgba(20,105,147,.22);
+      background: rgba(255,255,255,.92);
+      box-shadow: var(--shadow2);
+      overflow:hidden;
+      min-height: 0;
+      display:grid;
+      grid-template-rows: auto minmax(0, 1fr) auto;
+    }
+    .posterTop{
+      padding: 8px 10px;
+      border-bottom: 1px solid rgba(20,49,91,.10);
+      background: linear-gradient(180deg, rgba(20,105,147,.05), rgba(255,255,255,0));
+      display:flex;
+      align-items:flex-start;
+      justify-content:space-between;
+      gap: 10px;
+      min-height: 54px;
+    }
+    .badge{
+      display:inline-flex;
+      align-items:center;
+      gap: 8px;
+      font-size: 11.5px;
+      font-weight: 760;
+      color: var(--navy);
+      background: rgba(255,255,255,.92);
+      border: 1px solid rgba(20,105,147,.22);
+      padding: 6px 10px;
+      border-radius: 999px;
+      white-space:nowrap;
+    }
+    .badgeDot{
+      width: 8px; height: 8px;
+      border-radius: 999px;
+      background: var(--corn);
+      box-shadow: 0 0 0 4px rgba(20,105,147,.12);
+      flex:0 0 auto;
+    }
+    .pTitle{
+      margin: 0;
+      font-size: 12.6px;
+      line-height: 1.25;
+      font-weight: 760;
+      color: var(--ink);
+      flex:1 1 auto;
+      min-width:0;
+      display:-webkit-box;
+      -webkit-line-clamp: 3;
+      -webkit-box-orient: vertical;
+      overflow:hidden;
+    }
+    .viewBtn{
+      appearance:none;
+      border: 1px solid rgba(20,49,91,.12);
+      background: rgba(255,255,255,.90);
+      color: var(--navy);
+      border-radius: 999px;
+      padding: 6px 10px;
+      font-size: 12px;
+      cursor:pointer;
+      flex:0 0 auto;
+    }
+    .viewBtn:focus-visible{outline:none; box-shadow: var(--focus)}
+
+    .posterImg{
+      min-height: 0;
+      background:
+        radial-gradient(240px 240px at 22% 32%, rgba(217,186,36,.18), transparent 70%),
+        radial-gradient(320px 320px at 58% 38%, rgba(20,105,147,.14), transparent 72%),
+        linear-gradient(135deg, rgba(20,49,91,.07), rgba(217,186,36,.06));
+      position:relative;
+      overflow:hidden;
+    }
+    .posterImg img{
+      width:100%; height:100%;
+      object-fit: cover;
+      display:block;
+    }
+
+    .slotArea{
+      padding: 8px 10px 10px;
+      background: rgba(255,255,255,.92);
+      border-top: 1px solid rgba(20,49,91,.08);
+    }
+    .slot{
+      border-radius: var(--r20);
+      border: 2px dashed rgba(20,105,147,.35);
+      background: rgba(20,105,147,.03);
+      padding: 10px;
+      min-height: 60px;
+      display:flex;
+      align-items:center;
+      justify-content:center;
+      transition: background .12s ease, border-color .12s ease, box-shadow .12s ease;
+    }
+    .slot.isOver{
+      border-color: rgba(217,186,36,.70);
+      background: rgba(217,186,36,.10);
+      box-shadow: 0 0 0 3px rgba(217,186,36,.16);
+    }
+    .slot.good{
+      border-style: solid;
+      border-color: rgba(26,127,55,.42);
+      background: rgba(26,127,55,.06);
+    }
+    .slot.bad{
+      border-style: solid;
+      border-color: rgba(196,30,58,.26);
+      background: rgba(196,30,58,.06);
+    }
+    .slotBtn{
+      width:100%;
+      background: transparent;
+      border: none;
+      padding: 0;
+      cursor:pointer;
+      text-align:left;
+      outline: none;
+      user-select:none;
+    }
+    .slotBtn:focus-visible{box-shadow: var(--focus); border-radius: var(--r16)}
+    .slotHint{
+      display:flex;
+      align-items:center;
+      gap: 10px;
+      color: var(--muted);
+      font-size: 12.5px;
+    }
+    .slotHint i{
+      width: 10px; height: 10px;
+      border-radius: 999px;
+      background: rgba(20,105,147,.35);
+      box-shadow: 0 0 0 4px rgba(20,105,147,.10);
+      flex:0 0 auto;
+    }
+
+    .placed{
+      width:100%;
+      display:flex;
+      align-items:center;
+      gap: 10px;
+      border-radius: var(--r16);
+      border: 1px solid rgba(20,49,91,.12);
+      background: rgba(255,255,255,.96);
+      padding: 9px 10px;
+      user-select:none;
+      touch-action:none;
+    }
+    .placed.isSelected{
+      border-color: rgba(217,186,36,.70);
+      box-shadow: 0 0 0 3px rgba(217,186,36,.18);
+      background: rgba(217,186,36,.10);
+    }
+    .placed .avatar{width: 36px; height: 36px; border-radius: 12px}
+    .placed .pLabel{font-size: 13px}
+    .placed .pSub{font-size: 11.5px}
+    .removeBtn{
+      margin-left:auto;
+      appearance:none;
+      border: 1px solid rgba(20,49,91,.12);
+      background: rgba(0,0,0,.02);
+      color: var(--muted);
+      font-size: 12px;
+      padding: 6px 10px;
+      border-radius: 999px;
+      cursor:pointer;
+      white-space:nowrap;
+    }
+    .removeBtn:hover{background: rgba(0,0,0,.03)}
+    .removeBtn:focus-visible{outline:none; box-shadow: var(--focus)}
+
+    .toast{
+      position: fixed;
+      left: 50%;
+      bottom: 18px;
+      transform: translateX(-50%) translateY(8px);
+      background: rgba(20,49,91,.92);
+      color: var(--white);
+      border-radius: 12px;
+      padding: 10px 12px;
+      font-size: 13px;
+      box-shadow: 0 16px 30px rgba(0,0,0,.22);
+      opacity: 0;
+      pointer-events:none;
+      transition: opacity .18s ease, transform .18s ease;
+      z-index: 1000;
+      max-width: min(92vw, 860px);
+    }
+    .toast.show{opacity:1; transform: translateX(-50%) translateY(0)}
+
+    .scrim{
+      position:fixed;
+      inset:0;
+      background: rgba(20,49,91,.26);
+      backdrop-filter: blur(5px);
+      opacity:0;
+      pointer-events:none;
+      transition: opacity .18s ease;
+      z-index: 900;
+    }
+    .scrim.show{opacity:1; pointer-events:auto}
+
+    .ghost{
+      position: absolute;
+      left: 0;
+      top: 0;
+      pointer-events:none;
+      z-index: 2000;
+      width: 320px;
+      filter: drop-shadow(0 18px 26px rgba(0,0,0,.22));
+      transform: translate3d(-9999px, -9999px, 0);
+      will-change: transform;
+    }
+    .ghost .chip{display:none}
+
+    dialog{
+      border:none;
+      border-radius: var(--r20);
+      padding:0;
+      width: min(980px, calc(100% - 24px));
+      box-shadow: 0 24px 70px rgba(0,0,0,.28);
+    }
+    dialog::backdrop{background: rgba(0,0,0,.35)}
+    .dlgHd{
+      padding: 12px 14px;
+      border-bottom: 1px solid rgba(20,49,91,.10);
+      display:flex;
+      align-items:center;
+      justify-content:space-between;
+      gap: 10px;
+      background: var(--white);
+    }
+    .dlgHd h3{
+      margin:0;
+      font-size: 14px;
+      color: var(--navy);
+    }
+    .dlgBd{padding: 14px; background: var(--white)}
+    .dlgBd p{margin:0 0 10px; color: var(--muted); font-size: 13px; line-height:1.45}
+    .dlgImg{
+      width:100%;
+      border-radius: var(--r16);
+      border: 1px solid rgba(20,49,91,.10);
+      overflow:hidden;
+      background: var(--paper);
+    }
+    .dlgImg img{width:100%; height:auto; display:block}
+
+    .sr{
+      position:absolute !important;
+      width:1px;height:1px;
+      padding:0;margin:-1px;overflow:hidden;
+      clip:rect(0,0,0,0);white-space:nowrap;border:0;
+    }
+
+    footer{
+      flex: 0 0 auto;
+      display:flex;
+      align-items:center;
+      justify-content:space-between;
+      color: var(--muted);
+      font-size: 12px;
+      padding: 0 2px;
+      min-height: 18px;
+    }
+
+    @media (max-width: 980px){
+      .main{
+        grid-template-columns: 1fr;
+        grid-template-rows: auto 1fr;
+      }
+      .peopleList{
+        display:flex;
+        gap: 10px;
+        overflow-x: auto;
+        padding-bottom: 4px;
+        scroll-snap-type: x mandatory;
+      }
+      .peopleList::-webkit-scrollbar{height: 8px}
+      .person{
+        min-width: 220px;
+        scroll-snap-align: start;
+      }
+      .posterGrid{
+        display:flex;
+        gap: var(--gap);
+        overflow-x: auto;
+        overflow-y: hidden;
+        scroll-snap-type: x mandatory;
+        height: 100%;
+      }
+      .posterGrid::-webkit-scrollbar{height: 10px}
+      .poster{
+        flex: 0 0 calc(100% - 2px);
+        scroll-snap-align: start;
+        height: 100%;
+      }
+    }
+
+    @media (max-height: 760px){
+      .hero p{display:none}
+      .hero h1{font-size: 22px}
+      .posterTop{min-height: 48px}
+      .slot{min-height: 54px}
+      .pTitle{-webkit-line-clamp: 2}
+    }
+
+    @media (prefers-reduced-motion: reduce){
+      *{transition:none !important; animation:none !important; scroll-behavior:auto !important}
+    }
   </style>
 </head>
+
 <body>
-  <h1>GitHub Pages test</h1>
-  <p>If you can read this, deployment works.</p>
+<div class="shell">
+  <div class="wrap">
+    <div class="hero">
+      <div class="heroLeft">
+        <div class="brand">
+          <div class="logoBox" aria-hidden="true"><img src="logo.png" alt=""></div>
+          <div class="brandText">
+            <h1 data-i18n="title">COLLAPSE — Poster Match Quiz</h1>
+          </div>
+        </div>
+        <p id="instructions" data-i18n="instructions">
+          Ordne die Poster den Teammitgliedern zu. Drag & Drop oder: Person auswählen, dann Slot anklicken.
+          Am Ende kannst du prüfen (ohne Namen aufzudecken) und danach auflösen.
+        </p>
+      </div>
+      <div class="controls">
+        <button class="langBtn" id="langBtn" type="button" aria-label="Toggle language">DE / EN</button>
+        <button class="btn" id="helpBtn" type="button" data-i18n="btnHelp">Hilfe</button>
+        <button class="btn" id="resetBtn" type="button" data-i18n="btnReset">Reset</button>
+        <button class="btn primary" id="checkBtn" type="button" data-i18n="btnCheck">Check</button>
+        <button class="btn accent" id="revealBtn" type="button" data-i18n="btnReveal">Reveal</button>
+      </div>
+    </div>
+
+    <div class="main" aria-describedby="instructions">
+      <section class="panel peoplePanel" aria-label="People">
+        <div class="panelHead">
+          <h2 data-i18n="peopleHdr">People</h2>
+          <div class="statsRow" aria-label="Stats">
+            <span class="pill" id="attemptsPill"></span>
+            <span class="pill" id="correctPill"></span>
+            <span class="pill" id="timePill"></span>
+          </div>
+        </div>
+        <div class="panelBody">
+          <p class="sr" id="a11yHelp" data-i18n="a11yHelp">
+            Keyboard: focus a person and press Enter to select, then focus a slot and press Enter to place. Escape clears.
+          </p>
+          <div class="peopleList" id="peopleList" role="listbox" aria-label="People list" aria-describedby="a11yHelp"></div>
+        </div>
+      </section>
+
+      <section class="panel postersPanel" aria-label="Posters">
+        <div class="panelHead">
+          <h2 data-i18n="postersHdr">Posters</h2>
+          <div class="statsRow">
+            <span class="pill" id="modePill"></span>
+          </div>
+        </div>
+        <div class="panelBody">
+          <div class="posterGrid" id="posterGrid" aria-label="Poster targets"></div>
+        </div>
+      </section>
+    </div>
+
+    <footer>
+      <div data-i18n="footerLeft">© Universität Zürich · IAKA · COLLAPSE (Testseite)</div>
+      <div id="live" class="sr" aria-live="polite"></div>
+    </footer>
+  </div>
+</div>
+
+<div class="toast" id="toast" role="status" aria-live="polite"></div>
+<div class="scrim" id="scrim"></div>
+<div class="ghost" id="ghost" aria-hidden="true"></div>
+
+<dialog id="helpDlg" aria-label="Help">
+  <div class="dlgHd">
+    <h3 data-i18n="helpTitle">Hilfe</h3>
+    <button class="btn" id="closeHelp" type="button" data-i18n="btnClose">Close</button>
+  </div>
+  <div class="dlgBd">
+    <p data-i18n="helpP1">Drag & Drop: Ziehe eine Person in einen Poster-Slot.</p>
+    <p data-i18n="helpP2">Click mode: Klicke eine Person (markiert), dann klicke den Slot.</p>
+    <p data-i18n="helpP3">Check: markiert richtig/falsch, ohne Namen aufzudecken.</p>
+    <p data-i18n="helpP4">Reveal: sortiert alles korrekt ein und zeigt Namen/Rollen.</p>
+    <p data-i18n="helpP5">Re-drag: Du kannst auch die platzierten Karten erneut ziehen oder anklicken, um zu tauschen.</p>
+  </div>
+</dialog>
+
+<dialog id="zoomDlg" aria-label="Poster view">
+  <div class="dlgHd">
+    <h3 id="zoomTitle">Poster</h3>
+    <button class="btn" id="closeZoom" type="button" data-i18n="btnClose">Close</button>
+  </div>
+  <div class="dlgBd">
+    <p id="zoomMeta"></p>
+    <div class="dlgImg"><img id="zoomImg" alt="" /></div>
+  </div>
+</dialog>
+
+<script>
+(() => {
+  const CONFIG = {
+    people: [
+      { id:"p_lorenzo",  anon:"Person A", name:"Lorenzo Ronchini, Dr.",     role:"Postdoc · ERC-Projekt COLLAPSE",                             img:"https://www.iaka.uzh.ch/contacts/iaka/Klassische-Philologie/lronchini/photo/ronchini.jpg.jpg", website:"https://www.iaka.uzh.ch/de/klph/aboutus/personen/ronchini.html" },
+      { id:"p_cynthia",  anon:"Person B", name:"Cynthia Bruhn, Dr.",       role:"Postdoc · ERC-Projekt COLLAPSE",                         img:"https://www.iaka.uzh.ch/contacts/iaka/Klassische-Philologie/cbruhn/photo/IMG_6344.jpg.jpg", website:"https://www.iaka.uzh.ch/de/klph/research/klphs/collapse/Team/Cynthia-Bruhn.html" },
+      { id:"p_maria",    anon:"Person C", name:"Maria Kofina, MA",         role:"Doktorandin · ERC-Projekt COLLAPSE",                     img:"https://www.iaka.uzh.ch/contacts/iaka/Klassische-Philologie/mkofina/photo/kofina.jpg.jpg", website:"https://www.iaka.uzh.ch/de/klph/research/klphs/collapse/Team/Maria-Kofina.html" },
+      { id:"p_valentin", anon:"Person D", name:"Valentin Dietrich, MA",    role:"Doktorand · ERC-Projekt COLLAPSE",                       img:"https://www.iaka.uzh.ch/contacts/iaka/Klassische-Philologie/vdietrich/photo/valentin_dietrich.jpg.jpg", website:"https://www.iaka.uzh.ch/de/klph/research/klphs/collapse/Team/Valentin-Dietrich.html" },
+    ],
+    posters: [
+      { id:"t_ii1", teilprojekt:"Teilprojekt II.1", title:"Anonymität und religiöses Wissen", img:"assets/posters/ii1.jpg" },
+      { id:"t_i1",  teilprojekt:"Teilprojekt I.1",  title:"Im Schatten Lukians: Autor-Strategien und Überlieferungskontext der Pseudo-Lucianea neu betrachtet", img:"assets/posters/i1.jpg" },
+      { id:"t_ii2", teilprojekt:"Teilprojekt II.2", title:"Wissen, Autorität und Autorschaft in den pseudogalenischen Schriften der Kaiserzeit", img:"assets/posters/ii2.jpg" },
+      { id:"t_i2",  teilprojekt:"Teilprojekt I.2",  title:"αὐτὸς συνέγραψεν: Autor-Fiktion und die Funktion der pythagoreischen Pseudepigraphen im Platonismus", img:"assets/posters/i2.jpg" },
+    ],
+    key: { t_i1:"p_maria", t_i2:"p_valentin", t_ii1:"p_cynthia", t_ii2:"p_lorenzo" }
+  };
+
+  const STR = {
+    de: {
+      hdrLine1: "Universität Zürich · IAKA · Klassische Philologie",
+      navQuiz: "Quiz", navTeam: "Team", navProjects: "Teilprojekte", navContact: "Kontakt",
+      title: "Finde die Autoren der anonymen Poster",
+      instructions: "Ordne die Poster den Teammitgliedern zu. Drag & Drop oder: Person auswählen, dann Slot anklicken. Am Ende kannst du prüfen (ohne Namen aufzudecken) und danach auflösen.",
+      btnHelp: "Hilfe", btnReset:"Reset", btnCheck:"Prüfen", btnReveal:"Auflösen", btnClose:"Schliessen",
+      peopleHdr:"Personen", postersHdr:"Poster",
+      footerLeft:"© Universität Zürich · IAKA · COLLAPSE (Testseite)",
+      helpTitle:"Hilfe",
+      helpP1:"Drag & Drop: Ziehe eine Person in einen Poster-Slot.",
+      helpP2:"Klickmodus: Person auswählen, dann den Slot anklicken.",
+      helpP3:"Prüfen: Markiert richtig/falsch, ohne Namen aufzudecken.",
+      helpP4:"Auflösen: Ordnet alles korrekt ein und zeigt Namen/Rollen.",
+      helpP5:"Umplatzieren: Platzierten Eintrag erneut ziehen oder anklicken (dann Slot anklicken).",
+      a11yHelp:"Tastatur: Person fokussieren und Enter zum Auswählen, Slot fokussieren und Enter zum Platzieren. Escape hebt Auswahl auf.",
+      attempts:(n)=>`Versuche: ${n}`,
+      correct:(c,n)=>`Korrekt: ${c} / ${n}`,
+      time:(m,ss)=>`Zeit: ${m}:${ss}`,
+      toastSelectFirst:"Wähle zuerst eine Person.",
+      toastSelected:"ausgewählt.",
+      toastCleared:"Auswahl aufgehoben.",
+      toastPlaced:"Platziert.",
+      toastRemoved:"Entfernt.",
+      toastReset:"Zurückgesetzt.",
+      toastCheck:(c,n)=>`Prüfung: ${c} / ${n} korrekt.`,
+      toastReveal:"Lösung aufgedeckt.",
+      modeGuess:"Modus: Raten",
+      modeChecked:"Modus: Geprüft",
+      modeRevealed:"Modus: Aufgelöst",
+      slotHint:"Person hier platzieren",
+      view:"Ansehen",
+      remove:"Entfernen",
+      teamMember:"Teammitglied",
+      chipSelected:"ausgewählt",
+      chipDragClick:"ziehen/klicken"
+    },
+    en: {
+      hdrLine1: "University of Zurich · IAKA · Classical Philology",
+      navQuiz: "Quiz", navTeam: "Team", navProjects: "Projects", navContact: "Contact",
+      title: "find the authors of the anonymous posters",
+      instructions: "Match each poster to the correct team member. Use drag and drop or: select a person, then click a slot. At the end you can check (without revealing names) and then reveal the solution.",
+      btnHelp: "Help", btnReset:"Reset", btnCheck:"Check", btnReveal:"Reveal", btnClose:"Close",
+      peopleHdr:"People", postersHdr:"Posters",
+      footerLeft:"© University of Zurich · IAKA · COLLAPSE (test page)",
+      helpTitle:"Help",
+      helpP1:"Drag and drop: drag a person onto a poster slot.",
+      helpP2:"Click mode: click a person (selected), then click a slot.",
+      helpP3:"Check: marks correct/incorrect without revealing names.",
+      helpP4:"Reveal: snaps everything into the right place and reveals names/roles.",
+      helpP5:"Re-position: drag placed cards again, or select a placed card and click another slot to swap.",
+      a11yHelp:"Keyboard: focus a person and press Enter to select, then focus a slot and press Enter to place. Escape clears selection.",
+      attempts:(n)=>`Attempts: ${n}`,
+      correct:(c,n)=>`Correct: ${c} / ${n}`,
+      time:(m,ss)=>`Time: ${m}:${ss}`,
+      toastSelectFirst:"Select a person first.",
+      toastSelected:"selected.",
+      toastCleared:"Selection cleared.",
+      toastPlaced:"Placed.",
+      toastRemoved:"Removed.",
+      toastReset:"Reset.",
+      toastCheck:(c,n)=>`Check: ${c} / ${n} correct.`,
+      toastReveal:"Solution revealed.",
+      modeGuess:"Mode: Guess",
+      modeChecked:"Mode: Checked",
+      modeRevealed:"Mode: Revealed",
+      slotHint:"Place a person here",
+      view:"View",
+      remove:"Remove",
+      teamMember:"Team member",
+      chipSelected:"selected",
+      chipDragClick:"drag/click"
+    }
+  };
+
+  let LANG = "de";
+
+  const $ = (s, r=document) => r.querySelector(s);
+  const $$ = (s, r=document) => Array.from(r.querySelectorAll(s));
+
+  const el = {
+    peopleList: $("#peopleList"),
+    posterGrid: $("#posterGrid"),
+    attemptsPill: $("#attemptsPill"),
+    correctPill: $("#correctPill"),
+    timePill: $("#timePill"),
+    modePill: $("#modePill"),
+    toast: $("#toast"),
+    live: $("#live"),
+    scrim: $("#scrim"),
+    ghost: $("#ghost"),
+
+    langBtn: $("#langBtn"),
+    helpDlg: $("#helpDlg"),
+    helpBtn: $("#helpBtn"),
+    closeHelp: $("#closeHelp"),
+
+    zoomDlg: $("#zoomDlg"),
+    zoomTitle: $("#zoomTitle"),
+    zoomMeta: $("#zoomMeta"),
+    zoomImg: $("#zoomImg"),
+    closeZoom: $("#closeZoom"),
+
+    resetBtn: $("#resetBtn"),
+    checkBtn: $("#checkBtn"),
+    revealBtn: $("#revealBtn"),
+  };
+
+  const DRAG_THRESHOLD_PX = 7;
+
+  const state = {
+    mode: "guess",
+    attempts: 0,
+    selectedPersonId: null,
+    assignments: {},
+    press: null,   // {pid,pointerId,startX,startY,srcEl}
+    drag: null,    // {pid,pointerId,offsetX,offsetY}
+    rafPending: false,
+    lastMove: null,
+    timerStart: null,
+    timerId: null,
+    posterOrder: CONFIG.posters.map(p=>p.id),
+    peopleOrder: CONFIG.people.map(p=>p.id),
+  };
+
+  function t(key, ...args){
+    const v = STR[LANG][key];
+    return (typeof v === "function") ? v(...args) : v;
+  }
+
+  function applyI18n(){
+    $$("[data-i18n]").forEach(node => {
+      const k = node.getAttribute("data-i18n");
+      node.textContent = t(k);
+    });
+    setMode(state.mode);
+    updateStats();
+    renderAll(false);
+  }
+
+  function toast(msg, ms=1400){
+    el.toast.textContent = msg;
+    el.toast.classList.add("show");
+    el.live.textContent = msg;
+    clearTimeout(toast._t);
+    toast._t = setTimeout(()=> el.toast.classList.remove("show"), ms);
+  }
+
+  function setMode(mode){
+    state.mode = mode;
+    el.modePill.textContent =
+      (mode === "guess") ? t("modeGuess") :
+      (mode === "checked") ? t("modeChecked") : t("modeRevealed");
+  }
+
+  function ensureTimer(){
+    if(state.timerId) return;
+    state.timerStart = performance.now();
+    el.timePill.textContent = t("time", 0, "00");
+    state.timerId = setInterval(()=>{
+      const s = Math.floor((performance.now()-state.timerStart)/1000);
+      const m = Math.floor(s/60);
+      const ss = String(s%60).padStart(2,"0");
+      el.timePill.textContent = t("time", m, ss);
+    }, 250);
+  }
+  function stopTimer(){
+    if(!state.timerId) return;
+    clearInterval(state.timerId);
+    state.timerId = null;
+  }
+
+  function countCorrect(){
+    let ok=0;
+    for(const poster of CONFIG.posters){
+      const pid = state.assignments[poster.id];
+      if(pid && CONFIG.key[poster.id] === pid) ok++;
+    }
+    return ok;
+  }
+
+  function updateStats(){
+    el.attemptsPill.textContent = t("attempts", state.attempts);
+    el.correctPill.textContent = t("correct", countCorrect(), CONFIG.posters.length);
+    if(!state.timerId) el.timePill.textContent = t("time", 0, "00");
+  }
+
+  function getPerson(pid){ return CONFIG.people.find(p=>p.id===pid); }
+  function getPoster(tid){ return CONFIG.posters.find(p=>p.id===tid); }
+
+  function isAssigned(pid){
+    return Object.values(state.assignments).includes(pid);
+  }
+
+  function findPosterOfPerson(pid){
+    for(const [tid,v] of Object.entries(state.assignments)){
+      if(v===pid) return tid;
+    }
+    return null;
+  }
+
+  function assign(pid, tid){
+    if(state.mode === "revealed") return;
+
+    const existing = state.assignments[tid] || null;
+    const prev = findPosterOfPerson(pid);
+
+    if(existing && existing !== pid){
+      state.assignments[tid] = pid;
+      if(prev){
+        state.assignments[prev] = existing;
+      } else {
+        const exPrev = findPosterOfPerson(existing);
+        if(exPrev) state.assignments[exPrev] = null;
+      }
+    } else {
+      if(prev && prev !== tid) state.assignments[prev] = null;
+      state.assignments[tid] = pid;
+    }
+
+    state.selectedPersonId = null;
+    ensureTimer();
+    renderAll(false);
+    toast(t("toastPlaced"));
+  }
+
+  function toggleSelection(pid){
+    if(state.mode === "revealed") return;
+    ensureTimer();
+    state.selectedPersonId = (state.selectedPersonId === pid) ? null : pid;
+    renderAll(false);
+    const p = getPerson(pid);
+    const label = (state.mode === "revealed") ? p.name : p.anon;
+    toast(state.selectedPersonId ? `${label} ${t("toastSelected")}` : t("toastCleared"));
+  }
+
+  function renderAll(initial){
+    renderPeople();
+    renderPosters();
+    updateStats();
+    if(initial) setMode("guess");
+  }
+
+  function renderPeople(){
+    el.peopleList.innerHTML = "";
+    for(const pid of state.peopleOrder){
+      if(isAssigned(pid)) continue;
+
+      const p = getPerson(pid);
+      const selected = state.selectedPersonId === pid;
+
+      const card = document.createElement("div");
+      card.className = "person";
+      card.tabIndex = 0;
+      card.dataset.personId = pid;
+      card.setAttribute("role","option");
+      card.setAttribute("aria-selected", selected ? "true" : "false");
+
+      const label = (state.mode === "revealed") ? p.name : p.anon;
+      const sub = (state.mode === "revealed") ? p.role : t("teamMember");
+      const alt = (state.mode === "revealed") ? p.name : p.anon;
+
+      card.innerHTML = `
+        <div class="avatar" aria-hidden="true">
+          <img src="${p.img}" alt="${escapeHtml(alt)}" loading="lazy" onerror="this.style.display='none'">
+        </div>
+        <div class="pMeta">
+          <p class="pLabel">${escapeHtml(label)}</p>
+          <p class="pSub">${escapeHtml(sub)}</p>
+        </div>
+        <span class="chip" aria-hidden="true">${selected ? escapeHtml(t("chipSelected")) : escapeHtml(t("chipDragClick"))}</span>
+      `;
+
+      card.addEventListener("pointerdown", (ev) => pressStart(ev, pid, card));
+      card.addEventListener("keydown", (ev) => {
+        if(ev.key==="Enter" || ev.key===" "){
+          ev.preventDefault();
+          toggleSelection(pid);
+        }
+      });
+
+      el.peopleList.appendChild(card);
+    }
+  }
+
+  function renderPosters(){
+    el.posterGrid.innerHTML = "";
+
+    for(const tid of state.posterOrder){
+      const tPoster = getPoster(tid);
+      const assignedPid = state.assignments[tid] || null;
+      const assignedP = assignedPid ? getPerson(assignedPid) : null;
+
+      const card = document.createElement("article");
+      card.className = "poster";
+      card.dataset.posterId = tid;
+
+      let slotInner = "";
+      if(assignedP){
+        const selected = state.selectedPersonId === assignedP.id;
+        const label = (state.mode === "revealed") ? assignedP.name : assignedP.anon;
+        const sub = (state.mode === "revealed") ? assignedP.role : t("teamMember");
+        const alt = (state.mode === "revealed") ? assignedP.name : assignedP.anon;
+
+        slotInner = `
+          <div class="placed ${selected ? "isSelected" : ""}" data-person-id="${assignedP.id}">
+            <div class="avatar" aria-hidden="true">
+              <img src="${assignedP.img}" alt="${escapeHtml(alt)}" loading="lazy" onerror="this.style.display='none'">
+            </div>
+            <div class="pMeta">
+              <p class="pLabel">${escapeHtml(label)}</p>
+              <p class="pSub">${escapeHtml(sub)}</p>
+              ${state.mode === "revealed" && assignedP.website ? `<a href="${escapeHtml(assignedP.website)}" target="_blank" rel="noopener noreferrer" class="websiteLink">Website</a>` : ``}
+            </div>
+            ${state.mode !== "revealed" ? `<button class="removeBtn" type="button" data-remove="${tid}">${escapeHtml(t("remove"))}</button>` : ``}
+          </div>
+        `;
+      } else {
+        slotInner = `<div class="slotHint"><i aria-hidden="true"></i><span>${escapeHtml(t("slotHint"))}</span></div>`;
+      }
+
+      card.innerHTML = `
+        <div class="posterTop">
+          <span class="badge"><span class="badgeDot" aria-hidden="true"></span>${escapeHtml(tPoster.teilprojekt)}</span>
+          <p class="pTitle">${escapeHtml(tPoster.title)}</p>
+          <button class="viewBtn" type="button" data-zoom="${tid}">${escapeHtml(t("view"))}</button>
+        </div>
+
+        <div class="posterImg">
+          <img src="${tPoster.img}" alt="" loading="lazy" onerror="this.style.display='none'">
+        </div>
+
+        <div class="slotArea">
+          <div class="slot" id="slot_${tid}">
+            <div class="slotBtn" tabindex="0" role="button" data-slot="${tid}" aria-label="Slot ${escapeHtml(tPoster.teilprojekt)}">
+              ${slotInner}
+            </div>
+          </div>
+        </div>
+      `;
+
+      el.posterGrid.appendChild(card);
+    }
+
+    // slot click-to-place
+    $$("[data-slot]", el.posterGrid).forEach(btn => {
+      btn.addEventListener("click", (ev) => {
+        if(state.mode === "revealed") return;
+        if(ev.target.closest(".placed")) return; // clicking a placed card should not also place
+        ensureTimer();
+        const tid = btn.dataset.slot;
+        if(!state.selectedPersonId){
+          toast(t("toastSelectFirst"));
+          return;
+        }
+        assign(state.selectedPersonId, tid);
+      });
+      btn.addEventListener("keydown", (ev) => {
+        if(ev.key==="Enter" || ev.key===" "){
+          ev.preventDefault();
+          btn.click();
+        }
+      });
+    });
+
+    // remove
+    $$("button.removeBtn[data-remove]", el.posterGrid).forEach(btn => {
+      btn.addEventListener("click", (ev) => {
+        ev.stopPropagation();
+        if(state.mode === "revealed") return;
+        const tid = btn.dataset.remove;
+        state.assignments[tid] = null;
+        renderAll(false);
+        toast(t("toastRemoved"));
+      });
+    });
+
+    // placed: click select + drag from slot
+    $$(".placed[data-person-id]", el.posterGrid).forEach(pEl => {
+      const pid = pEl.dataset.personId;
+      pEl.addEventListener("click", (ev) => {
+        ev.stopPropagation();
+        toggleSelection(pid);
+      });
+      pEl.addEventListener("pointerdown", (ev) => {
+        ev.stopPropagation();
+        pressStart(ev, pid, pEl);
+      });
+    });
+
+    // zoom
+    $$("button.viewBtn[data-zoom]", el.posterGrid).forEach(btn => {
+      btn.addEventListener("click", (ev) => {
+        ev.stopPropagation();
+        openZoom(btn.dataset.zoom);
+      });
+    });
+  }
+
+  function escapeHtml(s){
+    return String(s ?? "")
+      .replaceAll("&","&amp;").replaceAll("<","&lt;").replaceAll(">","&gt;")
+      .replaceAll('"',"&quot;").replaceAll("'","&#039;");
+  }
+
+  // Press-to-click or press-to-drag (threshold)
+  function pressStart(ev, pid, srcEl){
+    if(state.mode === "revealed") return;
+    if(state.drag || state.press) return;
+    if(ev.pointerType === "mouse" && ev.button !== 0) return;
+
+    ensureTimer();
+
+    // Prevent browser from synthesizing unwanted click/drag behavior
+    ev.preventDefault();
+
+    state.press = {
+      pid,
+      pointerId: ev.pointerId,
+      startX: ev.clientX,
+      startY: ev.clientY,
+      srcEl
+    };
+
+    try { srcEl.setPointerCapture(ev.pointerId); } catch {}
+
+    window.addEventListener("pointermove", onPressMove, {passive:false});
+    window.addEventListener("pointerup", onPressUp, {passive:false});
+    window.addEventListener("pointercancel", onPressCancel, {passive:false});
+    window.addEventListener("keydown", onEsc);
+  }
+
+  function cleanupPress(){
+    window.removeEventListener("pointermove", onPressMove);
+    window.removeEventListener("pointerup", onPressUp);
+    window.removeEventListener("pointercancel", onPressCancel);
+  }
+
+  function onPressMove(ev){
+    if(!state.press || ev.pointerId !== state.press.pointerId) return;
+    const dx = ev.clientX - state.press.startX;
+    const dy = ev.clientY - state.press.startY;
+    if(Math.hypot(dx,dy) < DRAG_THRESHOLD_PX) return;
+
+    // Start drag
+    startDrag(ev, state.press.pid, state.press.srcEl);
+    state.press = null;
+    cleanupPress();
+  }
+
+  function onPressUp(ev){
+    if(!state.press || ev.pointerId !== state.press.pointerId) return;
+    const pid = state.press.pid;
+
+    state.press = null;
+    cleanupPress();
+
+    // Treat as click
+    toggleSelection(pid);
+  }
+
+  function onPressCancel(){
+    state.press = null;
+    cleanupPress();
+  }
+
+  // Drag logic (ghost is in page coordinates, target detection is in client coordinates)
+  function startDrag(ev, pid, sourceEl){
+    if(state.drag) return;
+
+    const rect = sourceEl.getBoundingClientRect();
+    const offsetX = ev.clientX - rect.left;
+    const offsetY = ev.clientY - rect.top;
+
+    buildGhost(sourceEl, rect.width);
+    state.drag = { pid, pointerId: ev.pointerId, offsetX, offsetY };
+
+    positionGhost(ev);
+    highlightSlotUnder(ev.clientX, ev.clientY);
+
+    window.addEventListener("pointermove", onDragMove, {passive:false});
+    window.addEventListener("pointerup", onDragEnd, {passive:false});
+    window.addEventListener("pointercancel", onDragEnd, {passive:false});
+  }
+
+  function buildGhost(sourceEl, w){
+    el.ghost.innerHTML = "";
+    const clone = sourceEl.cloneNode(true);
+    clone.querySelectorAll("button").forEach(b => b.remove());
+    el.ghost.style.width = `${Math.min(340, Math.max(240, w))}px`;
+    el.ghost.appendChild(clone);
+  }
+
+  function positionGhost(ev){
+    if(!state.drag) return;
+    const pageX = (ev.pageX != null) ? ev.pageX : (ev.clientX + window.scrollX);
+    const pageY = (ev.pageY != null) ? ev.pageY : (ev.clientY + window.scrollY);
+    const x = pageX - state.drag.offsetX;
+    const y = pageY - state.drag.offsetY;
+    el.ghost.style.transform = `translate3d(${x}px, ${y}px, 0)`;
+  }
+
+  function hideGhost(){
+    el.ghost.style.transform = "translate3d(-9999px, -9999px, 0)";
+    el.ghost.innerHTML = "";
+  }
+
+  function onDragMove(ev){
+    if(!state.drag || ev.pointerId !== state.drag.pointerId) return;
+    ev.preventDefault();
+
+    state.lastMove = { x: ev.clientX, y: ev.clientY, ev };
+    if(state.rafPending) return;
+
+    state.rafPending = true;
+    requestAnimationFrame(() => {
+      state.rafPending = false;
+      if(!state.drag || !state.lastMove) return;
+      positionGhost(state.lastMove.ev);
+      highlightSlotUnder(state.lastMove.x, state.lastMove.y);
+    });
+  }
+
+  function onDragEnd(ev){
+    if(!state.drag || ev.pointerId !== state.drag.pointerId) return;
+    ev.preventDefault();
+
+    const pid = state.drag.pid;
+
+    clearSlotHighlights();
+    hideGhost();
+
+    const tid = posterIdFromPoint(ev.clientX, ev.clientY);
+
+    state.drag = null;
+    state.lastMove = null;
+
+    window.removeEventListener("pointermove", onDragMove);
+    window.removeEventListener("pointerup", onDragEnd);
+    window.removeEventListener("pointercancel", onDragEnd);
+
+    if(tid){
+      assign(pid, tid);
+    } else {
+      // keep current assignments; just clear selection
+      state.selectedPersonId = null;
+      renderAll(false);
+      toast(t("toastCleared"));
+    }
+  }
+
+  function onEsc(ev){
+    if(ev.key !== "Escape") return;
+
+    if(state.drag){
+      clearSlotHighlights();
+      hideGhost();
+      state.drag = null;
+      window.removeEventListener("pointermove", onDragMove);
+      window.removeEventListener("pointerup", onDragEnd);
+      window.removeEventListener("pointercancel", onDragEnd);
+      state.selectedPersonId = null;
+      renderAll(false);
+      toast(t("toastCleared"));
+      return;
+    }
+
+    if(state.press){
+      state.press = null;
+      cleanupPress();
+      state.selectedPersonId = null;
+      renderAll(false);
+      toast(t("toastCleared"));
+      return;
+    }
+
+    if(state.selectedPersonId){
+      state.selectedPersonId = null;
+      renderAll(false);
+      toast(t("toastCleared"));
+    }
+  }
+
+  function posterIdFromPoint(x,y){
+    const node = document.elementFromPoint(x,y);
+    const poster = node && node.closest ? node.closest(".poster") : null;
+    return poster ? poster.dataset.posterId : null;
+  }
+
+  function highlightSlotUnder(x,y){
+    clearSlotHighlights();
+    const tid = posterIdFromPoint(x,y);
+    if(!tid) return;
+    const slot = $(`#slot_${CSS.escape(tid)}`);
+    if(slot) slot.classList.add("isOver");
+  }
+
+  function clearSlotHighlights(){
+    $$(".slot.isOver").forEach(s => s.classList.remove("isOver"));
+  }
+
+  function checkAnswers(){
+    if(state.mode === "revealed") return;
+    ensureTimer();
+    state.attempts++;
+    setMode("checked");
+    renderAll(false);
+
+    for(const tPoster of CONFIG.posters){
+      const slot = $(`#slot_${CSS.escape(tPoster.id)}`);
+      slot.classList.remove("good","bad");
+      const pid = state.assignments[tPoster.id];
+      if(!pid) continue;
+      const ok = CONFIG.key[tPoster.id] === pid;
+      slot.classList.add(ok ? "good" : "bad");
+    }
+
+    updateStats();
+    toast(t("toastCheck", countCorrect(), CONFIG.posters.length));
+  }
+
+  function rectMap(){
+    const m = new Map();
+    $$(".placed[data-person-id]").forEach(e => m.set(e.dataset.personId, e.getBoundingClientRect()));
+    $$(".person[data-person-id]").forEach(e => m.set(e.dataset.personId, e.getBoundingClientRect()));
+    return m;
+  }
+
+  function revealSolution(){
+    if(state.mode === "revealed") return;
+    ensureTimer();
+    state.attempts++;
+
+    el.scrim.classList.add("show");
+    const before = rectMap();
+
+    for(const [tid,pid] of Object.entries(CONFIG.key)){
+      state.assignments[tid] = pid;
+    }
+
+    setMode("revealed");
+    renderAll(false);
+    updateStats();
+
+    const reduce = window.matchMedia && window.matchMedia("(prefers-reduced-motion: reduce)").matches;
+    if(reduce){
+      setTimeout(() => {
+        el.scrim.classList.remove("show");
+        toast(t("toastReveal"));
+      }, 180);
+      stopTimer();
+      return;
+    }
+
+    const placedNow = new Map();
+    $$(".placed[data-person-id]").forEach(e => placedNow.set(e.dataset.personId, e));
+
+    const order = CONFIG.posters.map(p => CONFIG.key[p.id]);
+    const anims = [];
+
+    order.forEach((pid, idx) => {
+      const elCard = placedNow.get(pid);
+      const a = elCard?.getBoundingClientRect();
+      const b = before.get(pid);
+      if(!elCard || !a || !b) return;
+
+      const dx = b.left - a.left;
+      const dy = b.top - a.top;
+      const delay = 55 * idx;
+
+      anims.push(elCard.animate(
+        [
+          { transform: `translate(${dx}px, ${dy}px)`, opacity: 0.90 },
+          { transform: "translate(0,0)", opacity: 1 }
+        ],
+        { duration: 520, easing: "cubic-bezier(.22, 1.05, .36, 1)", delay }
+      ));
+    });
+
+    Promise.allSettled(anims.map(a => a.finished)).then(() => {
+      el.scrim.classList.remove("show");
+      toast(t("toastReveal"));
+    });
+
+    stopTimer();
+  }
+
+  function openZoom(tid){
+    const p = getPoster(tid);
+    el.zoomTitle.textContent = p.teilprojekt;
+    el.zoomMeta.textContent = p.title;
+    el.zoomImg.src = p.img;
+    el.zoomImg.alt = `Poster: ${p.teilprojekt}`;
+    el.zoomDlg.showModal();
+  }
+
+  function reset(){
+    state.attempts = 0;
+    state.selectedPersonId = null;
+    state.assignments = {};
+    state.press = null;
+    state.drag = null;
+    setMode("guess");
+    stopTimer();
+    el.timePill.textContent = t("time", 0, "00");
+
+    renderAll(true);
+    toast(t("toastReset"), 900);
+  }
+
+  el.langBtn.addEventListener("click", () => {
+    LANG = (LANG === "de") ? "en" : "de";
+    applyI18n();
+    toast(LANG === "de" ? "Deutsch" : "English", 900);
+  });
+
+  el.helpBtn.addEventListener("click", () => el.helpDlg.showModal());
+  el.closeHelp.addEventListener("click", () => el.helpDlg.close());
+
+  el.closeZoom.addEventListener("click", () => el.zoomDlg.close());
+
+  el.resetBtn.addEventListener("click", reset);
+  el.checkBtn.addEventListener("click", checkAnswers);
+  el.revealBtn.addEventListener("click", revealSolution);
+
+  window.addEventListener("touchmove", (e) => {
+    if(state.drag) e.preventDefault();
+  }, {passive:false});
+
+  applyI18n();
+  reset();
+})();
+</script>
 </body>
 </html>
