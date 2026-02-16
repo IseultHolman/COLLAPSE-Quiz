@@ -33,6 +33,7 @@
       --headerH: 56px;
       --pad: 14px;
       --gap: 12px;
+      --logoTrimLeft: 0px;
     }
 
     *{box-sizing:border-box}
@@ -72,19 +73,39 @@
       gap: 12px;
     }
     .brand{
-      display:flex;
-      align-items:center;
-      gap: 12px;
-      min-width: 260px;
+      display:grid;
+      grid-template-columns: 1fr;
+      align-items:start;
+      gap: 6px;
+      min-width: 0;
       margin-bottom: 8px;
     }
     .logoBox{
       flex:0 0 auto;
+      background: transparent;
+      justify-self:start;
+      overflow:hidden;
     }
     .logoBox img{
-      height: 34px;
+      height: 38px;
       width: auto;
       display: block;
+      background: transparent;
+      mix-blend-mode: multiply;
+      object-position: left center;
+      clip-path: inset(0 0 0 var(--logoTrimLeft));
+      margin-left: calc(-1 * var(--logoTrimLeft));
+    }
+
+    @media (min-width: 561px){
+      .brand{
+        display:flex;
+        align-items:center;
+        gap: 10px;
+        justify-content:flex-start;
+      }
+      .brandText{flex: 1 1 auto; min-width: 0}
+      .hero h1{overflow: hidden; text-overflow: ellipsis}
     }
     .brandText{min-width:0}
     .brandText h1{
@@ -118,14 +139,17 @@
     .langBtn{
       appearance:none;
       border: 1px solid rgba(20,49,91,.14);
-      background: rgba(20,105,147,.04);
+      background: linear-gradient(180deg, rgba(20,49,91,.05), rgba(20,49,91,.02));
       color: var(--navy);
       border-radius: 999px;
       padding: 7px 10px;
       font-size: 12.5px;
+      font-weight: 700;
       cursor:pointer;
       white-space:nowrap;
+      box-shadow: 0 1px 0 rgba(0,0,0,.02);
     }
+    .langBtn:hover{background: rgba(20,49,91,.07)}
     .langBtn:focus-visible{outline:none; box-shadow: var(--focus)}
 
     .shell{
@@ -135,8 +159,8 @@
       min-height: 0;
     }
     .wrap{
-      width: min(var(--max), calc(100% - 2*var(--pad)));
-      margin: 0 auto;
+      width: calc(100% - 2*var(--pad));
+      margin: 0 var(--pad);
       padding: var(--pad) 0 var(--pad);
       display:flex;
       flex-direction:column;
@@ -148,17 +172,23 @@
     .hero{
       flex: 0 0 auto;
       display:flex;
-      align-items:flex-end;
+      align-items:flex-start;
       justify-content:space-between;
       gap: 12px;
-      flex-wrap:wrap;
+      flex-wrap:nowrap;
     }
-    .heroLeft{min-width: 320px; max-width: 92ch;}
+    .heroLeft{
+      min-width: 0;
+      max-width: none;
+      flex: 1 1 auto;
+      padding-right: 8px;
+    }
     .hero h1{
       margin:0;
-      font-size: 24px;
+      font-size: clamp(18px, 3.4vw, 24px);
       color: var(--navy);
       letter-spacing:.2px;
+      white-space: nowrap;
     }
     .hero p{
       margin:4px 0 0;
@@ -172,33 +202,87 @@
       flex-wrap:wrap;
       justify-content:flex-end;
       align-items:center;
+      flex: 0 0 auto;
     }
     .btn{
       appearance:none;
-      border: 1px solid rgba(20,49,91,.14);
-      background: var(--white);
-      color: var(--ink);
+      border: 1px solid rgba(20,49,91,.22);
+      background: linear-gradient(180deg, rgba(20,49,91,.05), rgba(20,49,91,.02));
+      color: var(--navy);
       font-size: 12.5px;
       padding: 8px 12px;
       border-radius: 999px;
       cursor:pointer;
       user-select:none;
+      font-weight: 700;
+      white-space:nowrap;
       box-shadow: 0 1px 0 rgba(0,0,0,.02);
     }
-    .btn:hover{background: rgba(0,0,0,.02)}
+    .btn:hover{background: rgba(20,49,91,.08)}
     .btn:focus-visible{outline:none; box-shadow: var(--focus)}
     .btn.primary{
-      border-color: rgba(20,49,91,.20);
-      background: linear-gradient(180deg, rgba(20,49,91,.06), rgba(20,49,91,.02));
+      border-color: rgba(20,49,91,.24);
+      background: linear-gradient(180deg, rgba(20,49,91,.10), rgba(20,49,91,.04));
       color: var(--navy);
       font-weight: 750;
     }
     .btn.accent{
-      border-color: rgba(217,186,36,.50);
-      background: linear-gradient(180deg, rgba(217,186,36,.18), rgba(217,186,36,.06));
+      border-color: rgba(20,49,91,.24);
+      background: linear-gradient(180deg, rgba(20,49,91,.10), rgba(20,49,91,.04));
       color: var(--navy);
       font-weight: 750;
     }
+
+    .mobileHint{
+      display:none;
+      margin: 0 0 8px;
+      border: 1px solid rgba(20,49,91,.14);
+      background: rgba(20,49,91,.04);
+      color: var(--navy);
+      border-radius: 999px;
+      padding: 6px 10px;
+      font-size: 11.5px;
+      white-space: nowrap;
+      overflow: hidden;
+      text-overflow: ellipsis;
+    }
+
+    .postersPanel .panelHead{display:none}
+
+    .posterNav{
+      display:none;
+      position: fixed;
+      left: 50%;
+      top: 0;
+      transform: translateX(-50%);
+      z-index: 950;
+      background: transparent;
+      border: 0;
+      box-shadow: none;
+      padding: 0;
+      gap: 10px;
+      align-items:center;
+    }
+    .posterNavBtn{
+      appearance:none;
+      border: 1px solid rgba(20,49,91,.22);
+      background: rgba(255,255,255,.94);
+      backdrop-filter: blur(3px);
+      color: var(--navy);
+      width: 52px;
+      height: 52px;
+      border-radius: 999px;
+      font-size: 26px;
+      line-height: 1;
+      display:grid;
+      place-items:center;
+      cursor:pointer;
+      font-weight: 800;
+      box-shadow: 0 8px 22px rgba(0,0,0,.18);
+      transition: transform .12s ease, background .12s ease;
+    }
+    .posterNavBtn:hover{background: rgba(255,255,255,.98); transform: translateY(-1px)}
+    .posterNavBtn:focus-visible{outline:none; box-shadow: var(--focus)}
 
     .main{
       flex: 1 1 auto;
@@ -209,6 +293,7 @@
     }
 
     .panel{
+      --statsScale: 1;
       background: rgba(255,255,255,.92);
       border: 1px solid rgba(20,105,147,.18);
       border-radius: var(--r24);
@@ -228,6 +313,13 @@
       background: linear-gradient(180deg, rgba(20,105,147,.06), rgba(255,255,255,0));
       flex: 0 0 auto;
     }
+    .peoplePanel .panelHead{
+      display:flex;
+      flex-wrap:nowrap;
+      align-items:center;
+      gap: 8px;
+      min-width: 0;
+    }
     .panelHead h2{
       margin:0;
       font-size: 12px;
@@ -238,10 +330,31 @@
     .statsRow{
       display:flex;
       gap: 8px;
-      flex-wrap:wrap;
+      flex-wrap:nowrap;
       justify-content:flex-end;
       color: var(--muted);
       font-size: 12px;
+      min-width:0;
+    }
+    .peoplePanel .panelHead h2{
+      flex: 0 0 auto;
+      white-space: nowrap;
+      font-size: 12px;
+      letter-spacing: .16em;
+      padding-right: 2px;
+    }
+    .peoplePanel .statsRow{
+      margin-left: auto;
+      flex: 0 1 auto;
+      min-width: 0;
+      gap: calc(6px * var(--statsScale));
+    }
+    .peoplePanel .pill{
+      flex: 0 1 auto;
+      min-width: max-content;
+      font-size: calc(12px * var(--statsScale));
+      padding: calc(5px * var(--statsScale)) calc(9px * var(--statsScale));
+      line-height: 1.15;
     }
     .pill{
       border: 1px solid rgba(20,49,91,.12);
@@ -275,7 +388,7 @@
       padding: 10px;
       cursor: pointer;
       user-select:none;
-      touch-action: none;
+      touch-action: pan-x;
       min-width:0;
     }
     .person[aria-selected="true"]{
@@ -395,6 +508,7 @@
       flex:1 1 auto;
       min-width:0;
       display:-webkit-box;
+      line-clamp: 3;
       -webkit-line-clamp: 3;
       -webkit-box-orient: vertical;
       overflow:hidden;
@@ -402,29 +516,49 @@
     .viewBtn{
       appearance:none;
       border: 1px solid rgba(20,49,91,.12);
-      background: rgba(255,255,255,.90);
+      background: rgba(255,255,255,.94);
       color: var(--navy);
       border-radius: 999px;
-      padding: 6px 10px;
-      font-size: 12px;
+      width: 40px;
+      height: 40px;
+      padding: 0;
+      font-size: 22px;
+      font-family: ui-monospace, SFMono-Regular, Menlo, Consolas, monospace;
+      font-weight: 800;
+      line-height: 1;
+      display:grid;
+      place-items:center;
       cursor:pointer;
-      flex:0 0 auto;
+      position:absolute;
+      right: 10px;
+      top: 10px;
+      z-index: 2;
+      white-space:nowrap;
+      box-shadow: 0 4px 12px rgba(0,0,0,.14);
     }
+    .viewBtn:hover{background: rgba(255,255,255,.98)}
     .viewBtn:focus-visible{outline:none; box-shadow: var(--focus)}
+    .viewIcon{
+      display:inline-block;
+      transform: rotate(45deg);
+      transform-origin: center;
+    }
 
     .posterImg{
       min-height: 0;
-      background:
-        radial-gradient(240px 240px at 22% 32%, rgba(217,186,36,.18), transparent 70%),
-        radial-gradient(320px 320px at 58% 38%, rgba(20,105,147,.14), transparent 72%),
-        linear-gradient(135deg, rgba(20,49,91,.07), rgba(217,186,36,.06));
+      background: transparent;
       position:relative;
       overflow:hidden;
+      border-radius: 10px;
+      margin: 0;
+      border: none;
     }
-    .posterImg img{
+    .posterImg img, .posterImg canvas{
       width:100%; height:100%;
       object-fit: cover;
+      object-position: top center;
       display:block;
+      border-radius: 10px;
     }
 
     .slotArea{
@@ -433,6 +567,7 @@
       border-top: 1px solid rgba(20,49,91,.08);
     }
     .slot{
+      position: relative;
       border-radius: var(--r20);
       border: 2px dashed rgba(20,105,147,.35);
       background: rgba(20,105,147,.03);
@@ -457,6 +592,15 @@
       border-style: solid;
       border-color: rgba(196,30,58,.26);
       background: rgba(196,30,58,.06);
+    }
+    .feedbackIcon{
+      position:absolute;
+      top:4px; right:6px;
+      font-size:1.2em;
+      font-weight:700;
+      line-height:1;
+      pointer-events:none;
+      z-index:2;
     }
     .slotBtn{
       width:100%;
@@ -587,6 +731,14 @@
     }
     .dlgBd{padding: 14px; background: var(--white)}
     .dlgBd p{margin:0 0 10px; color: var(--muted); font-size: 13px; line-height:1.45}
+    .dlgHdActions{display:flex; gap:8px; align-items:center}
+    .dlgDownload{
+      text-decoration:none;
+      display:inline-flex;
+      align-items:center;
+      gap:4px;
+      font-size:12px;
+    }
     .dlgImg{
       width:100%;
       border-radius: var(--r16);
@@ -595,6 +747,7 @@
       background: var(--paper);
     }
     .dlgImg img{width:100%; height:auto; display:block}
+    .dlgImg canvas{width:100%; height:auto; display:block}
 
     .sr{
       position:absolute !important;
@@ -615,19 +768,52 @@
     }
 
     @media (max-width: 980px){
+      body{overflow:hidden}
+      .shell{height:100dvh; min-height:100dvh}
+      .wrap{height:100%; min-height:0; padding-bottom: calc(var(--pad) + env(safe-area-inset-bottom))}
+      #instructions{display:none}
+      .mobileHint{display:none !important}
+      .hero{align-items:flex-start; gap:10px; flex-wrap:wrap; flex-direction:column}
+      .heroLeft{min-width:0; width:100%}
+      .brand{min-width:0; margin-bottom:4px; width:100%}
+      .logoBox{justify-self:start}
+      .brandText{width:100%}
+      .hero h1{font-size: clamp(20px, 5.8vw, 26px); line-height:1.16}
+      .controls{justify-content:flex-start; width:100%; order: 3}
       .main{
-        grid-template-columns: 1fr;
-        grid-template-rows: auto 1fr;
+        display:flex;
+        flex-direction:column;
+        gap: var(--gap);
+        flex: 1 1 auto;
+        min-height: 0;
+        overflow:hidden;
+      }
+      .panel{min-height:auto}
+      .peoplePanel{flex: 0 0 auto}
+      .postersPanel{
+        flex: 1 1 auto;
+        min-height: 0;
+        border: none;
+        background: transparent;
+        box-shadow: none;
+        overflow: visible;
+      }
+      .postersPanel .panelBody{
+        padding: 0;
+        display:flex;
+        min-height: 0;
       }
       .peopleList{
         display:flex;
         gap: 10px;
         overflow-x: auto;
+        overflow-y: hidden;
         padding-bottom: 4px;
+        -webkit-overflow-scrolling: touch;
       }
       .peopleList::-webkit-scrollbar{height: 8px}
       .person{
-        min-width: 160px;
+        min-width: min(84vw, 280px);
         flex-shrink: 0;
       }
       .posterGrid{
@@ -635,15 +821,259 @@
         gap: var(--gap);
         overflow-x: auto;
         overflow-y: hidden;
-        scroll-snap-type: x mandatory;
-        height: 100%;
+        scroll-snap-type: x proximity;
+        flex: 1 1 auto;
+        min-height: 0;
+        padding-bottom: 0;
+        padding-right: 1px;
+        -webkit-overflow-scrolling: touch;
       }
       .posterGrid::-webkit-scrollbar{height: 10px}
       .poster{
-        flex: 0 0 calc(100% - 2px);
+        flex: 0 0 100%;
+        max-width: 100%;
         scroll-snap-align: start;
         height: 100%;
+        min-height: 0;
+        grid-template-rows: auto auto minmax(0, 1fr);
+        border: 0;
+        background: transparent;
+        box-shadow: none;
       }
+      .slotArea{
+        grid-row: 1;
+        border-top: 0;
+        border-bottom: none;
+        border-radius: 0;
+        background: transparent;
+        padding: 6px 2px 4px;
+      }
+      .posterTop{grid-row: 2}
+      .posterTop{border-bottom: none; background: transparent; padding: 4px 2px 6px; min-height: 0}
+      .posterImg{grid-row: 3}
+      .posterImg{height: 100%; border-radius: 10px}
+      .posterImg img{object-fit: contain; object-position: center top}
+      .posterTop{
+        display:block;
+        min-height: 0;
+      }
+      .badge{display: inline; font-size: 12px; margin-right: 4px; padding: 0; border: none; background: transparent}
+      .pTitle{
+        display: inline;
+        line-clamp: unset;
+        -webkit-line-clamp: unset;
+        -webkit-box-orient: unset;
+        font-size: 13.5px;
+        font-weight: 760;
+      }
+      .statsRow{
+        justify-content:flex-start;
+      }
+      .badge{background: transparent; border: none; padding: 0; font-size: 12px; color: var(--navy); font-weight: 700}
+      .badgeDot{display:none}
+      .posterNav{display:flex}
+    }
+
+    @media (max-width: 560px){
+      :root{
+        --pad: 10px;
+        --gap: 10px;
+      }
+      .brand{
+        display:grid;
+        grid-template-columns: 1fr;
+        align-items:start;
+        gap: 4px;
+      }
+      .logoBox img{height: 30px; max-width: min(62vw, 270px)}
+      .hero h1{
+        font-size: clamp(14px, 6vw, 20px);
+        line-height: 1.15;
+        white-space: nowrap;
+      }
+      .panelHead{padding: 9px 10px}
+      .peoplePanel .panelHead{gap: 6px}
+      .panelBody{padding: 9px 10px}
+      .poster{min-height: 360px}
+      .slot{min-height: 56px}
+      .pill{font-size: 11.5px}
+      .statsRow{gap: 6px}
+      .peoplePanel .panelHead h2{font-size: clamp(10px, 3.2vw, 12px)}
+      .peoplePanel .pill{font-size: clamp(10px, 2.9vw, 11.5px); padding: 4px 7px}
+      .controls{
+        gap: 8px;
+        flex-wrap: nowrap;
+        overflow-x: auto;
+        overflow-y: hidden;
+        -webkit-overflow-scrolling: touch;
+        padding-bottom: 2px;
+      }
+      .controls .btn,.controls .langBtn{flex: 0 0 auto}
+      .controls::-webkit-scrollbar{height: 6px}
+      .btn,.langBtn{padding: 7px 10px}
+      .person{min-width: min(86vw, 250px)}
+      .badge,.chip,.pill,.viewBtn,.removeBtn{white-space: nowrap}
+      .postersPanel .panelBody{overflow: visible}
+      .peoplePanel .panelBody{overflow: auto}
+      .hero p{display:block}
+      .pTitle{font-size: 12.8px}
+      footer{padding-bottom: max(6px, env(safe-area-inset-bottom))}
+      .posterNavBtn{width: 48px; height: 48px; font-size: 24px}
+    }
+
+    @media (max-width: 420px){
+      .hero h1{
+        font-size: 17px;
+        white-space: normal;
+        display: -webkit-box;
+        line-clamp: 2;
+        -webkit-line-clamp: 2;
+        -webkit-box-orient: vertical;
+        overflow: hidden;
+      }
+      .brand{gap: 4px}
+      .logoBox img{height: 28px; max-width: min(68vw, 250px)}
+      .heroLeft{padding-right: 12px}
+      .hero h1{padding-right: 6px}
+      .poster{min-height: 340px}
+      .person{min-width: min(88vw, 230px)}
+      .controls{gap: 7px}
+      .btn,.langBtn{font-size: 12px}
+      .pill{padding: 4px 7px}
+      .statsRow{gap: 5px}
+      .peoplePanel .panelHead h2{letter-spacing: .14em}
+      .peoplePanel .pill{font-size: clamp(9.5px, 3vw, 11px)}
+      .pTitle{line-clamp: 4; -webkit-line-clamp: 4}
+      .posterNavBtn{width: 46px; height: 46px; font-size: 23px}
+    }
+
+    @media (max-width: 420px){
+      .heroLeft{padding-right: 6px}
+    }
+
+    @media (max-width: 980px) and (pointer: coarse){
+      .person{touch-action: pan-x}
+      .placed{touch-action: none}
+      .posterGrid,.peopleList{overscroll-behavior-x: contain}
+      .mobileHint{display:block}
+      .main{overflow: visible}
+      .postersPanel{overflow: visible}
+      .postersPanel .panelBody{overflow: visible}
+      .peoplePanel .panelBody{overflow: auto}
+      .posterImg img{object-fit: contain; background: transparent}
+      .badge,.chip,.pill{white-space: nowrap}
+      .panelHead h2{white-space: nowrap}
+    }
+
+    @media (max-width: 980px) and (max-height: 760px){
+      .hero p{display:block}
+      .posterTop{min-height: 0}
+      .slot{min-height: 52px}
+      .pTitle{line-clamp: 2; -webkit-line-clamp: 2}
+      .poster{min-height: 330px}
+      .peopleList{padding-bottom: 2px}
+      .posterGrid{padding-bottom: 2px}
+      .controls{row-gap: 8px}
+      .brand{margin-bottom: 2px}
+      .panelHead{flex-wrap: wrap}
+      .statsRow{width: 100%}
+    }
+
+    @media (max-width: 980px) and (orientation: portrait){
+      .poster{flex-basis: 100%}
+      .posterGrid{scroll-padding-left: 2px}
+      .hero{gap: 8px}
+      .main{gap: 10px}
+      .panel{border-radius: 22px}
+      .poster{border-radius: 22px}
+      .slot{border-radius: 18px}
+      .placed{border-radius: 14px}
+      .person{border-radius: 14px}
+      .avatar{border-radius: 12px}
+      .placed .avatar{border-radius: 10px}
+      .posterTop{padding: 3px 2px}
+      .slotArea{padding: 6px 2px 4px}
+      .posterImg{border-radius: 10px}
+      .posterImg img{border-radius: 10px}
+      .badge{font-size: 11px; padding: 0}
+      .viewBtn{width: 40px; height: 40px; font-size: 22px}
+      .controls .btn,.controls .langBtn{max-width: 100%}
+      .heroLeft p{font-size: 12.4px; line-height: 1.3}
+      .mobileHint{font-size: 11.2px}
+    }
+
+    @media (max-width: 980px) and (orientation: landscape){
+      .poster{flex-basis: 100%}
+      .person{min-width: min(46vw, 280px)}
+      .hero p{display:none}
+      .controls{justify-content:flex-end}
+      .main{gap: 12px}
+      .posterTop{gap: 9px}
+      .pTitle{line-clamp: 2; -webkit-line-clamp: 2}
+      .poster{min-height: 300px}
+      .posterImg img{object-fit: cover}
+      .panelBody{padding-bottom: 8px}
+      .wrap{padding-bottom: 10px}
+      footer{font-size: 11.5px}
+      .pill{font-size: 11px}
+      .btn,.langBtn{font-size: 12px}
+      .badge{font-size: 10.8px}
+      .viewBtn{width: 36px; height: 36px; font-size: 20px}
+      .slotHint{font-size: 12px}
+      .placed .pLabel{font-size: 12.5px}
+      .placed .pSub{font-size: 11px}
+      .person .pLabel{font-size: 12.8px}
+      .person .pSub{font-size: 11.5px}
+    }
+
+    @media (min-width: 981px){
+      .hero{gap: 16px}
+      .controls{margin-top: 2px}
+      .brand{
+        margin-bottom: 6px;
+        display:flex;
+        align-items:center;
+        gap: 10px;
+      }
+      .logoBox img{height: 38px; width:auto}
+      .hero h1{white-space: nowrap}
+      .posterTop{padding: 8px 10px 6px}
+      .viewBtn{right: 12px; top: 12px}
+      .posterImg{margin: 9px; border-radius: 15px}
+      .posterImg img{border-radius: 15px}
+    }
+
+    @media (max-width: 980px) and (pointer: coarse) and (hover: none){
+      .person{cursor: pointer}
+      .slotBtn{cursor: pointer}
+      .removeBtn,.viewBtn,.btn,.langBtn{cursor: pointer}
+      .peopleList,.posterGrid{scrollbar-width: thin}
+      .peopleList::-webkit-scrollbar,.posterGrid::-webkit-scrollbar{height: 8px}
+      .peopleList::-webkit-scrollbar-thumb,.posterGrid::-webkit-scrollbar-thumb{background: rgba(20,49,91,.22); border-radius: 999px}
+      .peopleList::-webkit-scrollbar-track,.posterGrid::-webkit-scrollbar-track{background: rgba(20,49,91,.06)}
+      .panel{box-shadow: var(--shadow2)}
+      .poster{box-shadow: none}
+      .slotArea{background: transparent}
+      .posterImg{border-radius: 10px}
+      .posterImg img{border-radius: 10px}
+      .posterTop{background: transparent}
+      .badge{background: transparent; border: none; padding: 0}
+      .chip{background: rgba(255,255,255,.94)}
+      .pill{background: rgba(255,255,255,.92)}
+      .controls{flex-wrap: nowrap; overflow-x: auto; overflow-y: hidden}
+      .panelHead{gap: 8px}
+      .pMeta{min-width: 0}
+      .websiteLink{font-size: 10.8px}
+      .toast{max-width: min(94vw, 720px)}
+      .dlgBd{padding: 12px}
+      .dlgHd{padding: 10px 12px}
+      .dlgHd h3{font-size: 13.5px}
+      .dlgBd p{font-size: 12.5px}
+      .dlgImg{border-radius: 14px}
+      .posterGrid{scroll-snap-type: x mandatory}
+      .poster{scroll-snap-stop: always}
+      .peopleList{scroll-snap-type: x proximity}
+      .person{scroll-snap-align: start}
     }
 
     @media (max-height: 760px){
@@ -651,22 +1081,51 @@
       .hero h1{font-size: 22px}
       .posterTop{min-height: 48px}
       .slot{min-height: 54px}
-      .pTitle{-webkit-line-clamp: 2}
+      .pTitle{line-clamp: 2; -webkit-line-clamp: 2}
     }
 
     @media (prefers-reduced-motion: reduce){
       *{transition:none !important; animation:none !important; scroll-behavior:auto !important}
     }
+
+    .skipLink{
+      position:absolute;
+      left:-9999px;
+      top:auto;
+      width:1px;
+      height:1px;
+      overflow:hidden;
+      z-index:9999;
+      background:var(--navy);
+      color:var(--white);
+      padding:10px 16px;
+      border-radius:0 0 8px 0;
+      font-size:14px;
+      font-weight:700;
+      text-decoration:none;
+      white-space:nowrap;
+    }
+    .skipLink:focus{
+      position:fixed;
+      left:0;
+      top:0;
+      width:auto;
+      height:auto;
+      outline:3px solid var(--corn);
+      outline-offset:2px;
+    }
   </style>
+  <script src="https://cdnjs.cloudflare.com/ajax/libs/pdf.js/3.11.174/pdf.min.js"></script>
 </head>
 
 <body>
+<a href="#quizMain" class="skipLink" data-i18n="skipToQuiz">Zum Quiz springen</a>
 <div class="shell">
   <div class="wrap">
     <div class="hero">
       <div class="heroLeft">
         <div class="brand">
-          <div class="logoBox" aria-hidden="true"><img src="logo.jpeg" alt=""></div>
+          <div class="logoBox" aria-hidden="true"><img src="logo.png" alt=""></div>
           <div class="brandText">
             <h1 data-i18n="title">COLLAPSE — Poster Match Quiz</h1>
           </div>
@@ -677,7 +1136,7 @@
         </p>
       </div>
       <div class="controls">
-        <button class="langBtn" id="langBtn" type="button" aria-label="Toggle language">DE / EN</button>
+        <button class="langBtn" id="langBtn" type="button" aria-label="Toggle language">DE / EN / FR / IT</button>
         <button class="btn" id="helpBtn" type="button" data-i18n="btnHelp">Hilfe</button>
         <button class="btn" id="resetBtn" type="button" data-i18n="btnReset">Reset</button>
         <button class="btn primary" id="checkBtn" type="button" data-i18n="btnCheck">Check</button>
@@ -685,7 +1144,7 @@
       </div>
     </div>
 
-    <div class="main" aria-describedby="instructions">
+    <div class="main" id="quizMain" aria-describedby="instructions">
       <section class="panel peoplePanel" aria-label="People">
         <div class="panelHead">
           <h2 data-i18n="peopleHdr">People</h2>
@@ -705,12 +1164,10 @@
 
       <section class="panel postersPanel" aria-label="Posters">
         <div class="panelHead">
-          <h2 data-i18n="postersHdr">Posters</h2>
-          <div class="statsRow">
-            <span class="pill" id="modePill"></span>
-          </div>
+          <h2 class="sr" data-i18n="postersHdr">Posters</h2>
         </div>
         <div class="panelBody">
+          <p class="mobileHint" data-i18n="mobilePostersHint">↔ Durch Poster wischen · Ziel oben auf jeder Karte</p>
           <div class="posterGrid" id="posterGrid" aria-label="Poster targets"></div>
         </div>
       </section>
@@ -721,6 +1178,11 @@
       <div id="live" class="sr" aria-live="polite"></div>
     </footer>
   </div>
+</div>
+
+<div class="posterNav" id="posterNav" aria-label="Poster navigation">
+  <button class="posterNavBtn" id="posterPrevBtn" type="button" aria-label="Previous poster" title="Previous">‹</button>
+  <button class="posterNavBtn" id="posterNextBtn" type="button" aria-label="Next poster" title="Next">›</button>
 </div>
 
 <div class="toast" id="toast" role="status" aria-live="polite"></div>
@@ -738,22 +1200,56 @@
     <p data-i18n="helpP3">Check: markiert richtig/falsch, ohne Namen aufzudecken.</p>
     <p data-i18n="helpP4">Reveal: sortiert alles korrekt ein und zeigt Namen/Rollen.</p>
     <p data-i18n="helpP5">Re-drag: Du kannst auch die platzierten Karten erneut ziehen oder anklicken, um zu tauschen.</p>
+    <p data-i18n="helpP6">Auf Touch-Geräten: Für Drag & Drop eine Person kurz lange drücken, dann ziehen. Listen/Poster horizontal wischen.</p>
+    <p data-i18n="helpP7">Sprache: Mit DE / EN / FR / IT zwischen Deutsch, Englisch, Französisch und Italienisch wechseln.</p>
   </div>
 </dialog>
 
 <dialog id="zoomDlg" aria-label="Poster view">
   <div class="dlgHd">
     <h3 id="zoomTitle">Poster</h3>
-    <button class="btn" id="closeZoom" type="button" data-i18n="btnClose">Close</button>
+    <div class="dlgHdActions">
+      <a class="btn dlgDownload" id="zoomDownload" href="#" download aria-label="Download Poster" title="Download">Download</a>
+      <button class="btn" id="closeZoom" type="button" data-i18n="btnClose">Close</button>
+    </div>
   </div>
   <div class="dlgBd">
     <p id="zoomMeta"></p>
-    <div class="dlgImg"><img id="zoomImg" alt="" /></div>
+    <div class="dlgImg" id="zoomCanvas"></div>
   </div>
 </dialog>
 
 <script>
 (() => {
+  /* ── PDF.js setup ── */
+  pdfjsLib.GlobalWorkerOptions.workerSrc = "https://cdnjs.cloudflare.com/ajax/libs/pdf.js/3.11.174/pdf.worker.min.js";
+
+  // Cache rendered PDF pages as blob URLs so we don't re-render
+  const pdfCache = {};
+
+  async function renderPdfToCanvas(pdfUrl, scale = 1.5){
+    const loadingTask = pdfjsLib.getDocument(pdfUrl);
+    const pdf = await loadingTask.promise;
+    const page = await pdf.getPage(1);
+    const viewport = page.getViewport({ scale });
+    const canvas = document.createElement("canvas");
+    canvas.width = viewport.width;
+    canvas.height = viewport.height;
+    const ctx = canvas.getContext("2d");
+    await page.render({ canvasContext: ctx, viewport }).promise;
+    return canvas;
+  }
+
+  async function getPdfBlobUrl(pdfUrl, scale = 1.0){
+    const key = `${pdfUrl}@${scale}`;
+    if(pdfCache[key]) return pdfCache[key];
+    const canvas = await renderPdfToCanvas(pdfUrl, scale);
+    const blob = await new Promise(r => canvas.toBlob(r, "image/jpeg", 0.88));
+    const url = URL.createObjectURL(blob);
+    pdfCache[key] = url;
+    return url;
+  }
+
   const CONFIG = {
     people: [
       { id:"p_lorenzo",  anon:"Person A", name:"Lorenzo Ronchini, Dr.",     role:"Postdoc · ERC-Projekt COLLAPSE",                             img:"https://www.iaka.uzh.ch/contacts/iaka/Klassische-Philologie/lronchini/photo/ronchini.jpg.jpg", website:"https://www.iaka.uzh.ch/de/klph/aboutus/personen/ronchini.html" },
@@ -762,10 +1258,10 @@
       { id:"p_valentin", anon:"Person D", name:"Valentin Dietrich, MA",    role:"Doktorand · ERC-Projekt COLLAPSE",                       img:"https://www.iaka.uzh.ch/contacts/iaka/Klassische-Philologie/vdietrich/photo/valentin_dietrich.jpg.jpg", website:"https://www.iaka.uzh.ch/de/klph/research/klphs/collapse/Team/Valentin-Dietrich.html" },
     ],
     posters: [
-      { id:"t_ii1", teilprojekt:"Teilprojekt II.1", title:"Anonymität und religiöses Wissen", img:"assets/posters/ii1.jpg" },
-      { id:"t_i1",  teilprojekt:"Teilprojekt I.1",  title:"Im Schatten Lukians: Autor-Strategien und Überlieferungskontext der Pseudo-Lucianea neu betrachtet", img:"assets/posters/i1.jpg" },
-      { id:"t_ii2", teilprojekt:"Teilprojekt II.2", title:"Wissen, Autorität und Autorschaft in den pseudogalenischen Schriften der Kaiserzeit", img:"assets/posters/ii2.jpg" },
-      { id:"t_i2",  teilprojekt:"Teilprojekt I.2",  title:"αὐτὸς συνέγραψεν: Autor-Fiktion und die Funktion der pythagoreischen Pseudepigraphen im Platonismus", img:"assets/posters/i2.jpg" },
+      { id:"t_ii1", teilprojekt:"Teilprojekt II.1", title:"Anonymität und religiöses Wissen", pdf:"assets/posters/ii1.pdf" },
+      { id:"t_i1",  teilprojekt:"Teilprojekt I.1",  title:"Im Schatten Lukians: Autor-Strategien und Überlieferungskontext der Pseudo-Lucianea neu betrachtet", pdf:"assets/posters/i1.pdf" },
+      { id:"t_ii2", teilprojekt:"Teilprojekt II.2", title:"Wissen, Autorität und Autorschaft in den pseudogalenischen Schriften der Kaiserzeit", pdf:"assets/posters/ii2.pdf" },
+      { id:"t_i2",  teilprojekt:"Teilprojekt I.2",  title:"αὐτὸς συνέγραψεν: Autor-Fiktion und die Funktion der pythagoreischen Pseudepigraphen im Platonismus", pdf:"assets/posters/i2.pdf" },
     ],
     key: { t_i1:"p_maria", t_i2:"p_valentin", t_ii1:"p_cynthia", t_ii2:"p_lorenzo" }
   };
@@ -785,7 +1281,15 @@
       helpP3:"Prüfen: Markiert richtig/falsch, ohne Namen aufzudecken.",
       helpP4:"Auflösen: Ordnet alles korrekt ein und zeigt Namen/Rollen.",
       helpP5:"Umplatzieren: Platzierten Eintrag erneut ziehen oder anklicken (dann Slot anklicken).",
+      helpP6:"Auf Touch-Geräten: Für Drag & Drop eine Person kurz lange drücken, dann ziehen. Listen/Poster horizontal wischen.",
+      helpP7:"Sprache: Mit DE / EN / FR / IT zwischen Deutsch, Englisch, Französisch und Italienisch wechseln.",
       a11yHelp:"Tastatur: Person fokussieren und Enter zum Auswählen, Slot fokussieren und Enter zum Platzieren. Escape hebt Auswahl auf.",
+      mobilePeopleHint:"↔ Wischen in der Personenliste · Lange drücken zum Ziehen",
+      mobilePostersHint:"↔ Durch Poster wischen · Ziel oben auf jeder Karte",
+      posterPrev:"Vorheriges Poster",
+      posterNext:"Nächstes Poster",
+      langBtnLabel:"Sprache",
+      langToast:"Deutsch",
       attempts:(n)=>`Versuche: ${n}`,
       correct:(c,n)=>`Korrekt: ${c} / ${n}`,
       time:(m,ss)=>`Zeit: ${m}:${ss}`,
@@ -802,15 +1306,31 @@
       modeRevealed:"Modus: Aufgelöst",
       slotHint:"Person hier platzieren",
       view:"Ansehen",
+      btnDownload:"Herunterladen",
       remove:"Entfernen",
       teamMember:"Teammitglied",
       chipSelected:"ausgewählt",
-      chipDragClick:"ziehen/klicken"
+      chipDragClick:"ziehen/klicken",
+      skipToQuiz:"Zum Quiz springen",
+      ariaPeopleSection:"Personen",
+      ariaPostersSection:"Poster",
+      ariaPeopleList:"Personenliste",
+      ariaPosterTargets:"Poster-Zuordnung",
+      ariaStats:"Statistik",
+      ariaPosterNav:"Poster-Navigation",
+      ariaHelpDlg:"Hilfe",
+      ariaPosterDlg:"Poster-Ansicht",
+      correctMark:"✓ Richtig",
+      incorrectMark:"✗ Falsch",
+      opensNewTab:"(öffnet neues Fenster)",
+      pageTitle:"COLLAPSE — Poster-Zuordnungsquiz",
+      timerStarted:"Timer gestartet.",
+      allAssigned:"Alle Personen zugeordnet."
     },
     en: {
       hdrLine1: "University of Zurich · IAKA · Classical Philology",
       navQuiz: "Quiz", navTeam: "Team", navProjects: "Projects", navContact: "Contact",
-      title: "find the authors of the anonymous posters",
+      title: "Find the authors of the anonymous posters",
       instructions: "Match each poster to the correct team member. Use drag and drop or: select a person, then click a slot. At the end you can check (without revealing names) and then reveal the solution.",
       btnHelp: "Help", btnReset:"Reset", btnCheck:"Check", btnReveal:"Reveal", btnClose:"Close",
       peopleHdr:"People", postersHdr:"Posters",
@@ -821,7 +1341,15 @@
       helpP3:"Check: marks correct/incorrect without revealing names.",
       helpP4:"Reveal: snaps everything into the right place and reveals names/roles.",
       helpP5:"Re-position: drag placed cards again, or select a placed card and click another slot to swap.",
+      helpP6:"On touch devices: long-press a person briefly to start drag-and-drop, then drag. Swipe lists/posters horizontally.",
+      helpP7:"Language: use DE / EN / FR / IT to switch between German, English, French, and Italian.",
       a11yHelp:"Keyboard: focus a person and press Enter to select, then focus a slot and press Enter to place. Escape clears selection.",
+      mobilePeopleHint:"↔ Swipe people list · Long-press to drag",
+      mobilePostersHint:"↔ Swipe posters · Drop target is at the top",
+      posterPrev:"Previous poster",
+      posterNext:"Next poster",
+      langBtnLabel:"Language",
+      langToast:"English",
       attempts:(n)=>`Attempts: ${n}`,
       correct:(c,n)=>`Correct: ${c} / ${n}`,
       time:(m,ss)=>`Time: ${m}:${ss}`,
@@ -838,13 +1366,151 @@
       modeRevealed:"Mode: Revealed",
       slotHint:"Place a person here",
       view:"View",
+      btnDownload:"Download",
       remove:"Remove",
       teamMember:"Team member",
       chipSelected:"selected",
-      chipDragClick:"drag/click"
+      chipDragClick:"drag/click",
+      skipToQuiz:"Skip to quiz",
+      ariaPeopleSection:"People",
+      ariaPostersSection:"Posters",
+      ariaPeopleList:"People list",
+      ariaPosterTargets:"Poster targets",
+      ariaStats:"Statistics",
+      ariaPosterNav:"Poster navigation",
+      ariaHelpDlg:"Help",
+      ariaPosterDlg:"Poster view",
+      correctMark:"✓ Correct",
+      incorrectMark:"✗ Incorrect",
+      opensNewTab:"(opens new tab)",
+      pageTitle:"COLLAPSE — Poster Match Quiz",
+      timerStarted:"Timer started.",
+      allAssigned:"All people assigned."
+    },
+    fr: {
+      hdrLine1: "Université de Zurich · IAKA · Philologie classique",
+      navQuiz: "Quiz", navTeam: "Équipe", navProjects: "Projets", navContact: "Contact",
+      title: "Trouvez les auteurs des affiches anonymes",
+      instructions: "Associez chaque affiche au bon membre de l'équipe. Glisser-déposer ou: sélectionnez une personne puis cliquez un emplacement. À la fin, vous pouvez vérifier (sans révéler les noms), puis afficher la solution.",
+      btnHelp: "Aide", btnReset:"Reset", btnCheck:"Vérifier", btnReveal:"Révéler", btnClose:"Fermer",
+      peopleHdr:"Personnes", postersHdr:"Affiches",
+      footerLeft:"© Université de Zurich · IAKA · COLLAPSE (page test)",
+      helpTitle:"Aide",
+      helpP1:"Glisser-déposer: faites glisser une personne vers un emplacement d'affiche.",
+      helpP2:"Mode clic: cliquez une personne (sélectionnée), puis cliquez l'emplacement.",
+      helpP3:"Vérifier: marque correct/incorrect sans révéler les noms.",
+      helpP4:"Révéler: place tout correctement et révèle noms/rôles.",
+      helpP5:"Replacer: faites glisser une carte placée ou sélectionnez-la puis cliquez un autre emplacement.",
+      helpP6:"Sur appareils tactiles: appui long court sur une personne pour démarrer le glisser-déposer, puis glissez. Balayez listes/affiches horizontalement.",
+      helpP7:"Langue: utilisez DE / EN / FR / IT pour passer entre allemand, anglais, français et italien.",
+      a11yHelp:"Clavier: placez le focus sur une personne et appuyez sur Entrée pour sélectionner, puis sur un emplacement et Entrée pour placer. Échap annule.",
+      mobilePeopleHint:"↔ Balayer la liste des personnes · Appui long pour glisser",
+      mobilePostersHint:"↔ Balayer les affiches · La zone de dépôt est en haut",
+      posterPrev:"Affiche précédente",
+      posterNext:"Affiche suivante",
+      langBtnLabel:"Langue",
+      langToast:"Français",
+      attempts:(n)=>`Essais: ${n}`,
+      correct:(c,n)=>`Correct: ${c} / ${n}`,
+      time:(m,ss)=>`Temps: ${m}:${ss}`,
+      toastSelectFirst:"Sélectionnez d'abord une personne.",
+      toastSelected:"sélectionné(e).",
+      toastCleared:"Sélection effacée.",
+      toastPlaced:"Placée.",
+      toastRemoved:"Retirée.",
+      toastReset:"Réinitialisé.",
+      toastCheck:(c,n)=>`Vérification: ${c} / ${n} correct.`,
+      toastReveal:"Solution révélée.",
+      modeGuess:"Mode: Essai",
+      modeChecked:"Mode: Vérifié",
+      modeRevealed:"Mode: Révélé",
+      slotHint:"Placer une personne ici",
+      view:"Voir",
+      btnDownload:"Télécharger",
+      remove:"Retirer",
+      teamMember:"Membre de l'équipe",
+      chipSelected:"sélectionné",
+      chipDragClick:"glisser/cliquer",
+      skipToQuiz:"Aller au quiz",
+      ariaPeopleSection:"Personnes",
+      ariaPostersSection:"Affiches",
+      ariaPeopleList:"Liste des personnes",
+      ariaPosterTargets:"Cibles d'affiches",
+      ariaStats:"Statistiques",
+      ariaPosterNav:"Navigation des affiches",
+      ariaHelpDlg:"Aide",
+      ariaPosterDlg:"Vue de l'affiche",
+      correctMark:"✓ Correct",
+      incorrectMark:"✗ Incorrect",
+      opensNewTab:"(ouvre un nouvel onglet)",
+      pageTitle:"COLLAPSE — Quiz d'association d'affiches",
+      timerStarted:"Minuterie démarrée.",
+      allAssigned:"Toutes les personnes attribuées."
+    },
+    it: {
+      hdrLine1: "Università di Zurigo · IAKA · Filologia classica",
+      navQuiz: "Quiz", navTeam: "Team", navProjects: "Progetti", navContact: "Contatto",
+      title: "Trova gli autori dei poster anonimi",
+      instructions: "Abbina ogni poster al membro corretto del team. Trascina e rilascia oppure: seleziona una persona e poi tocca lo slot. Alla fine puoi verificare (senza rivelare i nomi) e poi mostrare la soluzione.",
+      btnHelp: "Aiuto", btnReset:"Reset", btnCheck:"Verifica", btnReveal:"Rivela", btnClose:"Chiudi",
+      peopleHdr:"Persone", postersHdr:"Poster",
+      footerLeft:"© Università di Zurigo · IAKA · COLLAPSE (pagina test)",
+      helpTitle:"Aiuto",
+      helpP1:"Trascina e rilascia: trascina una persona su uno slot del poster.",
+      helpP2:"Modalità clic: clicca una persona (selezionata), poi clicca lo slot.",
+      helpP3:"Verifica: segna corretto/errato senza rivelare i nomi.",
+      helpP4:"Rivela: posiziona tutto correttamente e mostra nomi/ruoli.",
+      helpP5:"Riposiziona: trascina di nuovo le carte già posizionate o selezionale e clicca un altro slot.",
+      helpP6:"Su dispositivi touch: tieni premuto brevemente su una persona per iniziare il drag-and-drop, poi trascina. Scorri orizzontalmente liste/poster.",
+      helpP7:"Lingua: usa DE / EN / FR / IT per passare tra tedesco, inglese, francese e italiano.",
+      a11yHelp:"Tastiera: metti a fuoco una persona e premi Invio per selezionare, poi metti a fuoco uno slot e premi Invio per posizionare. Esc annulla.",
+      mobilePeopleHint:"↔ Scorri la lista persone · Pressione lunga per trascinare",
+      mobilePostersHint:"↔ Scorri i poster · Il target è in alto",
+      posterPrev:"Poster precedente",
+      posterNext:"Poster successivo",
+      langBtnLabel:"Lingua",
+      langToast:"Italiano",
+      attempts:(n)=>`Tentativi: ${n}`,
+      correct:(c,n)=>`Corretti: ${c} / ${n}`,
+      time:(m,ss)=>`Tempo: ${m}:${ss}`,
+      toastSelectFirst:"Seleziona prima una persona.",
+      toastSelected:"selezionato/a.",
+      toastCleared:"Selezione annullata.",
+      toastPlaced:"Posizionato.",
+      toastRemoved:"Rimosso.",
+      toastReset:"Reimpostato.",
+      toastCheck:(c,n)=>`Verifica: ${c} / ${n} corretti.`,
+      toastReveal:"Soluzione rivelata.",
+      modeGuess:"Modalità: Tentativo",
+      modeChecked:"Modalità: Verificato",
+      modeRevealed:"Modalità: Rivelato",
+      slotHint:"Posiziona una persona qui",
+      view:"Apri",
+      btnDownload:"Scarica",
+      remove:"Rimuovi",
+      teamMember:"Membro del team",
+      chipSelected:"selezionato",
+      chipDragClick:"trascina/clicca",
+      skipToQuiz:"Vai al quiz",
+      ariaPeopleSection:"Persone",
+      ariaPostersSection:"Poster",
+      ariaPeopleList:"Lista persone",
+      ariaPosterTargets:"Obiettivi poster",
+      ariaStats:"Statistiche",
+      ariaPosterNav:"Navigazione poster",
+      ariaHelpDlg:"Aiuto",
+      ariaPosterDlg:"Vista poster",
+      correctMark:"✓ Corretto",
+      incorrectMark:"✗ Sbagliato",
+      opensNewTab:"(apre nuova scheda)",
+      pageTitle:"COLLAPSE — Quiz di abbinamento poster",
+      timerStarted:"Timer avviato.",
+      allAssigned:"Tutte le persone assegnate."
     }
   };
 
+  const LANG_ORDER = ["de","en","fr","it"];
+  const LANG_HTML_MAP = {de:"de", en:"en", fr:"fr", it:"it"};
   let LANG = "de";
 
   const $ = (s, r=document) => r.querySelector(s);
@@ -856,7 +1522,6 @@
     attemptsPill: $("#attemptsPill"),
     correctPill: $("#correctPill"),
     timePill: $("#timePill"),
-    modePill: $("#modePill"),
     toast: $("#toast"),
     live: $("#live"),
     scrim: $("#scrim"),
@@ -870,8 +1535,13 @@
     zoomDlg: $("#zoomDlg"),
     zoomTitle: $("#zoomTitle"),
     zoomMeta: $("#zoomMeta"),
-    zoomImg: $("#zoomImg"),
+    zoomCanvas: $("#zoomCanvas"),
+    zoomDownload: $("#zoomDownload"),
     closeZoom: $("#closeZoom"),
+
+    posterPrevBtn: $("#posterPrevBtn"),
+    posterNextBtn: $("#posterNextBtn"),
+    posterNav: $("#posterNav"),
 
     resetBtn: $("#resetBtn"),
     checkBtn: $("#checkBtn"),
@@ -879,6 +1549,11 @@
   };
 
   const DRAG_THRESHOLD_PX = 7;
+  const TOUCH_DRAG_HOLD_MS = 260;
+
+  function isTouchMobileUI(){
+    return window.matchMedia("(max-width: 980px) and (pointer: coarse)").matches;
+  }
 
   const state = {
     mode: "guess",
@@ -886,6 +1561,7 @@
     selectedPersonId: null,
     assignments: {},
     press: null,   // {pid,pointerId,startX,startY,srcEl}
+    pressHoldTimer: null,
     drag: null,    // {pid,pointerId,offsetX,offsetY}
     rafPending: false,
     lastMove: null,
@@ -901,16 +1577,46 @@
   }
 
   function applyI18n(){
+    // Update html lang attribute and page title
+    document.documentElement.lang = LANG_HTML_MAP[LANG] || LANG;
+    document.title = t("pageTitle");
+
     $$("[data-i18n]").forEach(node => {
       const k = node.getAttribute("data-i18n");
       node.textContent = t(k);
     });
+    el.langBtn.textContent = `${t("langBtnLabel")}: ${LANG.toUpperCase()}`;
+    el.langBtn.setAttribute("aria-label", `${t("langBtnLabel")}: ${LANG.toUpperCase()} (DE/EN/FR/IT)`);
+    if(el.posterPrevBtn){
+      el.posterPrevBtn.setAttribute("aria-label", t("posterPrev"));
+      el.posterPrevBtn.title = t("posterPrev");
+    }
+    if(el.posterNextBtn){
+      el.posterNextBtn.setAttribute("aria-label", t("posterNext"));
+      el.posterNextBtn.title = t("posterNext");
+    }
+
+    // Update all translatable aria-labels
+    const peopleSection = $(".peoplePanel");
+    if(peopleSection) peopleSection.setAttribute("aria-label", t("ariaPeopleSection"));
+    const postersSection = $(".postersPanel");
+    if(postersSection) postersSection.setAttribute("aria-label", t("ariaPostersSection"));
+    if(el.peopleList) el.peopleList.setAttribute("aria-label", t("ariaPeopleList"));
+    if(el.posterGrid) el.posterGrid.setAttribute("aria-label", t("ariaPosterTargets"));
+    const statsRow = $(".statsRow");
+    if(statsRow) statsRow.setAttribute("aria-label", t("ariaStats"));
+    if(el.posterNav) el.posterNav.setAttribute("aria-label", t("ariaPosterNav"));
+    if(el.helpDlg) el.helpDlg.setAttribute("aria-label", t("ariaHelpDlg"));
+    if(el.zoomDlg) el.zoomDlg.setAttribute("aria-label", t("ariaPosterDlg"));
+    if(el.zoomDownload) el.zoomDownload.textContent = t("btnDownload");
+
     setMode(state.mode);
     updateStats();
     renderAll(false);
+    requestAnimationFrame(fitPeopleHeaderStats);
   }
 
-  function toast(msg, ms=1400){
+  function toast(msg, ms=2200){
     el.toast.textContent = msg;
     el.toast.classList.add("show");
     el.live.textContent = msg;
@@ -920,15 +1626,13 @@
 
   function setMode(mode){
     state.mode = mode;
-    el.modePill.textContent =
-      (mode === "guess") ? t("modeGuess") :
-      (mode === "checked") ? t("modeChecked") : t("modeRevealed");
   }
 
   function ensureTimer(){
     if(state.timerId) return;
     state.timerStart = performance.now();
     el.timePill.textContent = t("time", 0, "00");
+    el.live.textContent = t("timerStarted");
     state.timerId = setInterval(()=>{
       const s = Math.floor((performance.now()-state.timerStart)/1000);
       const m = Math.floor(s/60);
@@ -955,6 +1659,23 @@
     el.attemptsPill.textContent = t("attempts", state.attempts);
     el.correctPill.textContent = t("correct", countCorrect(), CONFIG.posters.length);
     if(!state.timerId) el.timePill.textContent = t("time", 0, "00");
+    fitPeopleHeaderStats();
+  }
+
+  function fitPeopleHeaderStats(){
+    const panelHead = $(".peoplePanel .panelHead");
+    const titleEl = $(".peoplePanel .panelHead h2");
+    const statsEl = $(".peoplePanel .statsRow");
+    const panel = $(".peoplePanel");
+    if(!panelHead || !panel || !titleEl || !statsEl) return;
+
+    panel.style.setProperty("--statsScale", "1");
+
+    const gap = parseFloat(getComputedStyle(panelHead).gap || "8") || 8;
+    const available = Math.max(40, panelHead.clientWidth - titleEl.getBoundingClientRect().width - gap - 4);
+    const natural = Math.max(1, statsEl.scrollWidth);
+    const scale = Math.max(0.58, Math.min(1, available / natural));
+    panel.style.setProperty("--statsScale", scale.toFixed(3));
   }
 
   function getPerson(pid){ return CONFIG.people.find(p=>p.id===pid); }
@@ -994,6 +1715,11 @@
     ensureTimer();
     renderAll(false);
     toast(t("toastPlaced"));
+    // Focus management: put focus on the slot that received the person
+    requestAnimationFrame(() => {
+      const slotBtn = $(`[data-slot="${CSS.escape(tid)}"]`);
+      if(slotBtn) slotBtn.focus();
+    });
   }
 
   function toggleSelection(pid){
@@ -1004,6 +1730,11 @@
     const p = getPerson(pid);
     const label = (state.mode === "revealed") ? p.name : p.anon;
     toast(state.selectedPersonId ? `${label} ${t("toastSelected")}` : t("toastCleared"));
+    // Focus management: return focus to the person card
+    requestAnimationFrame(() => {
+      const card = $(`[data-person-id="${CSS.escape(pid)}"]`);
+      if(card) card.focus();
+    });
   }
 
   function renderAll(initial){
@@ -1015,8 +1746,10 @@
 
   function renderPeople(){
     el.peopleList.innerHTML = "";
+    let anyRendered = false;
     for(const pid of state.peopleOrder){
       if(isAssigned(pid)) continue;
+      anyRendered = true;
 
       const p = getPerson(pid);
       const selected = state.selectedPersonId === pid;
@@ -1029,6 +1762,7 @@
       card.setAttribute("aria-selected", selected ? "true" : "false");
 
       const label = (state.mode === "revealed") ? p.name : p.anon;
+      const visibleLabel = p.name;
       const sub = (state.mode === "revealed") ? p.role : t("teamMember");
       const alt = (state.mode === "revealed") ? p.name : p.anon;
 
@@ -1037,7 +1771,7 @@
           <img src="${p.img}" alt="${escapeHtml(alt)}" loading="lazy" onerror="this.style.display='none'">
         </div>
         <div class="pMeta">
-          <p class="pLabel">${escapeHtml(label)}</p>
+          <p class="pLabel">${escapeHtml(visibleLabel)}</p>
           <p class="pSub">${escapeHtml(sub)}</p>
         </div>
         <span class="chip" aria-hidden="true">${selected ? escapeHtml(t("chipSelected")) : escapeHtml(t("chipDragClick"))}</span>
@@ -1052,6 +1786,14 @@
       });
 
       el.peopleList.appendChild(card);
+    }
+    // Handle empty listbox for screen readers
+    if(!anyRendered){
+      const msg = document.createElement("div");
+      msg.className = "sr";
+      msg.setAttribute("role", "option");
+      msg.textContent = t("allAssigned");
+      el.peopleList.appendChild(msg);
     }
   }
 
@@ -1071,6 +1813,7 @@
       if(assignedP){
         const selected = state.selectedPersonId === assignedP.id;
         const label = (state.mode === "revealed") ? assignedP.name : assignedP.anon;
+        const visibleLabel = assignedP.name;
         const sub = (state.mode === "revealed") ? assignedP.role : t("teamMember");
         const alt = (state.mode === "revealed") ? assignedP.name : assignedP.anon;
 
@@ -1080,9 +1823,9 @@
               <img src="${assignedP.img}" alt="${escapeHtml(alt)}" loading="lazy" onerror="this.style.display='none'">
             </div>
             <div class="pMeta">
-              <p class="pLabel">${escapeHtml(label)}</p>
+              <p class="pLabel">${escapeHtml(visibleLabel)}</p>
               <p class="pSub">${escapeHtml(sub)}</p>
-              ${state.mode === "revealed" && assignedP.website ? `<a href="${escapeHtml(assignedP.website)}" target="_blank" rel="noopener noreferrer" class="websiteLink">Website</a>` : ``}
+              ${state.mode === "revealed" && assignedP.website ? `<a href="${escapeHtml(assignedP.website)}" target="_blank" rel="noopener noreferrer" class="websiteLink">Website<span class="sr"> (${escapeHtml(t("opensNewTab"))})</span></a>` : ``}
             </div>
             ${state.mode !== "revealed" ? `<button class="removeBtn" type="button" data-remove="${tid}">${escapeHtml(t("remove"))}</button>` : ``}
           </div>
@@ -1095,11 +1838,11 @@
         <div class="posterTop">
           <span class="badge"><span class="badgeDot" aria-hidden="true"></span>${escapeHtml(tPoster.teilprojekt)}</span>
           <p class="pTitle">${escapeHtml(tPoster.title)}</p>
-          <button class="viewBtn" type="button" data-zoom="${tid}">${escapeHtml(t("view"))}</button>
         </div>
 
-        <div class="posterImg">
-          <img src="${tPoster.img}" alt="" loading="lazy" onerror="this.style.display='none'">
+        <div class="posterImg" data-pdf="${escapeHtml(tPoster.pdf)}">
+          <button class="viewBtn" type="button" data-zoom="${tid}" aria-label="${escapeHtml(t("view"))}" title="${escapeHtml(t("view"))}"><span class="viewIcon">&lt;&gt;</span></button>
+          <img src="" alt="" style="background:var(--paper)" loading="lazy">
         </div>
 
         <div class="slotArea">
@@ -1144,6 +1887,11 @@
         state.assignments[tid] = null;
         renderAll(false);
         toast(t("toastRemoved"));
+        // Focus management: return focus to the now-empty slot
+        requestAnimationFrame(() => {
+          const slotBtn = $(`[data-slot="${CSS.escape(tid)}"]`);
+          if(slotBtn) slotBtn.focus();
+        });
       });
     });
 
@@ -1167,6 +1915,24 @@
         openZoom(btn.dataset.zoom);
       });
     });
+
+    // Lazy-render PDF thumbnails via IntersectionObserver
+    const thumbObserver = new IntersectionObserver((entries, obs) => {
+      entries.forEach(entry => {
+        if(!entry.isIntersecting) return;
+        const container = entry.target;
+        obs.unobserve(container);
+        const pdfUrl = container.dataset.pdf;
+        const img = container.querySelector("img");
+        getPdfBlobUrl(pdfUrl, 0.3).then(blobUrl => {
+          if(img) img.src = blobUrl;
+        }).catch(err => console.warn("PDF thumb failed:", pdfUrl, err));
+      });
+    }, { rootMargin: "200px" });
+
+    $$(".posterImg[data-pdf]", el.posterGrid).forEach(container => {
+      thumbObserver.observe(container);
+    });
   }
 
   function escapeHtml(s){
@@ -1183,18 +1949,51 @@
 
     ensureTimer();
 
-    // Prevent browser from synthesizing unwanted click/drag behavior
-    ev.preventDefault();
+    const mobileTouchPerson =
+      isTouchMobileUI() &&
+      ev.pointerType !== "mouse" &&
+      srcEl && srcEl.classList &&
+      srcEl.classList.contains("person");
+
+    if(!mobileTouchPerson){
+      ev.preventDefault();
+    }
 
     state.press = {
       pid,
       pointerId: ev.pointerId,
       startX: ev.clientX,
       startY: ev.clientY,
-      srcEl
+      lastX: ev.clientX,
+      lastY: ev.clientY,
+      lastPageX: (ev.pageX != null) ? ev.pageX : (ev.clientX + window.scrollX),
+      lastPageY: (ev.pageY != null) ? ev.pageY : (ev.clientY + window.scrollY),
+      srcEl,
+      mobileTouchPerson,
+      moved: false
     };
 
-    try { srcEl.setPointerCapture(ev.pointerId); } catch {}
+    if(!mobileTouchPerson){
+      try { srcEl.setPointerCapture(ev.pointerId); } catch {}
+    }
+
+    clearPressHoldTimer();
+    if(mobileTouchPerson){
+      state.pressHoldTimer = setTimeout(() => {
+        if(!state.press || !state.press.mobileTouchPerson) return;
+        const p = state.press;
+        const dragEv = {
+          clientX: p.lastX,
+          clientY: p.lastY,
+          pageX: p.lastPageX,
+          pageY: p.lastPageY,
+          pointerId: p.pointerId
+        };
+        startDrag(dragEv, p.pid, p.srcEl);
+        state.press = null;
+        cleanupPress();
+      }, TOUCH_DRAG_HOLD_MS);
+    }
 
     window.addEventListener("pointermove", onPressMove, {passive:false});
     window.addEventListener("pointerup", onPressUp, {passive:false});
@@ -1202,7 +2001,14 @@
     window.addEventListener("keydown", onEsc);
   }
 
+  function clearPressHoldTimer(){
+    if(!state.pressHoldTimer) return;
+    clearTimeout(state.pressHoldTimer);
+    state.pressHoldTimer = null;
+  }
+
   function cleanupPress(){
+    clearPressHoldTimer();
     window.removeEventListener("pointermove", onPressMove);
     window.removeEventListener("pointerup", onPressUp);
     window.removeEventListener("pointercancel", onPressCancel);
@@ -1210,9 +2016,25 @@
 
   function onPressMove(ev){
     if(!state.press || ev.pointerId !== state.press.pointerId) return;
+
+    state.press.lastX = ev.clientX;
+    state.press.lastY = ev.clientY;
+    state.press.lastPageX = (ev.pageX != null) ? ev.pageX : (ev.clientX + window.scrollX);
+    state.press.lastPageY = (ev.pageY != null) ? ev.pageY : (ev.clientY + window.scrollY);
+
     const dx = ev.clientX - state.press.startX;
     const dy = ev.clientY - state.press.startY;
-    if(Math.hypot(dx,dy) < DRAG_THRESHOLD_PX) return;
+    const dist = Math.hypot(dx,dy);
+
+    if(state.press.mobileTouchPerson){
+      if(dist >= DRAG_THRESHOLD_PX){
+        state.press.moved = true;
+        clearPressHoldTimer();
+      }
+      return;
+    }
+
+    if(dist < DRAG_THRESHOLD_PX) return;
 
     // Start drag
     startDrag(ev, state.press.pid, state.press.srcEl);
@@ -1222,10 +2044,14 @@
 
   function onPressUp(ev){
     if(!state.press || ev.pointerId !== state.press.pointerId) return;
+    const wasMobileTouchPerson = state.press.mobileTouchPerson;
+    const moved = state.press.moved;
     const pid = state.press.pid;
 
     state.press = null;
     cleanupPress();
+
+    if(wasMobileTouchPerson && moved) return;
 
     // Treat as click
     toggleSelection(pid);
@@ -1381,10 +2207,28 @@
     for(const tPoster of CONFIG.posters){
       const slot = $(`#slot_${CSS.escape(tPoster.id)}`);
       slot.classList.remove("good","bad");
+      // Remove old feedback icons
+      const oldFb = slot.querySelector(".feedbackIcon");
+      if(oldFb) oldFb.remove();
+
       const pid = state.assignments[tPoster.id];
       if(!pid) continue;
       const ok = CONFIG.key[tPoster.id] === pid;
       slot.classList.add(ok ? "good" : "bad");
+
+      // Add color-blind-friendly feedback icon + SR text
+      const fb = document.createElement("span");
+      fb.className = "feedbackIcon";
+      fb.setAttribute("aria-hidden", "true");
+      fb.textContent = ok ? "✓" : "✗";
+      fb.style.color = ok ? "#1a7f37" : "#c41e3a";
+      slot.appendChild(fb);
+
+      // SR announcement
+      const srSpan = document.createElement("span");
+      srSpan.className = "sr";
+      srSpan.textContent = ok ? t("correctMark") : t("incorrectMark");
+      slot.appendChild(srSpan);
     }
 
     updateStats();
@@ -1457,13 +2301,80 @@
     stopTimer();
   }
 
-  function openZoom(tid){
+  async function openZoom(tid){
     const p = getPoster(tid);
     el.zoomTitle.textContent = p.teilprojekt;
     el.zoomMeta.textContent = p.title;
-    el.zoomImg.src = p.img;
-    el.zoomImg.alt = `Poster: ${p.teilprojekt}`;
+
+    // Set download link
+    el.zoomDownload.href = p.pdf;
+    el.zoomDownload.download = `${p.teilprojekt}.pdf`;
+
+    // Clear previous content and show loading
+    el.zoomCanvas.innerHTML = '<p style="text-align:center;padding:24px;color:var(--muted)">Loading…</p>';
     el.zoomDlg.showModal();
+
+    // Render PDF at high resolution
+    try {
+      const blobUrl = await getPdfBlobUrl(p.pdf, 1.5);
+      const img = document.createElement("img");
+      img.src = blobUrl;
+      img.alt = `Poster: ${p.teilprojekt}`;
+      el.zoomCanvas.innerHTML = "";
+      el.zoomCanvas.appendChild(img);
+    } catch(err) {
+      console.warn("Zoom PDF render failed:", err);
+      el.zoomCanvas.innerHTML = '<p style="text-align:center;padding:24px;color:#c41e3a">Could not render PDF</p>';
+    }
+  }
+
+  function updatePosterNavPosition(){
+    if(!el.posterNav) return;
+    if(!window.matchMedia("(max-width: 980px)").matches) return;
+    const posters = $$(".poster", el.posterGrid);
+    if(!posters.length) return;
+
+    const vwCenter = window.innerWidth / 2;
+    let activePoster = posters[0];
+    let bestDist = Infinity;
+    for(const poster of posters){
+      const r = poster.getBoundingClientRect();
+      const cx = r.left + r.width / 2;
+      const d = Math.abs(cx - vwCenter);
+      if(d < bestDist){
+        bestDist = d;
+        activePoster = poster;
+      }
+    }
+
+    // Mark visible poster with aria-current for screen readers
+    posters.forEach(p => p.removeAttribute("aria-current"));
+    activePoster.setAttribute("aria-current", "true");
+
+    // Show/hide nav buttons at edges
+    const activeIdx = posters.indexOf(activePoster);
+    if(el.posterPrevBtn) el.posterPrevBtn.style.display = activeIdx <= 0 ? "none" : "";
+    if(el.posterNextBtn) el.posterNextBtn.style.display = activeIdx >= posters.length - 1 ? "none" : "";
+
+    const rect = activePoster.getBoundingClientRect();
+    const navRect = el.posterNav.getBoundingClientRect();
+    const navH = navRect.height || 54;
+    const minTop = 8;
+    const maxTop = window.innerHeight - navH - 8;
+    const targetTop = rect.bottom - navH - 14;
+    const clampedTop = Math.max(minTop, Math.min(maxTop, targetTop));
+
+    el.posterNav.style.left = `50%`;
+    el.posterNav.style.top = `${clampedTop}px`;
+  }
+
+  function scrollPoster(direction){
+    if(!el.posterGrid) return;
+    const firstPoster = el.posterGrid.querySelector(".poster");
+    const gap = parseFloat(getComputedStyle(el.posterGrid).gap || "12") || 12;
+    const width = firstPoster ? firstPoster.getBoundingClientRect().width : el.posterGrid.clientWidth;
+    const delta = Math.max(120, width + gap);
+    el.posterGrid.scrollBy({ left: direction * delta, behavior: "smooth" });
   }
 
   function reset(){
@@ -1477,13 +2388,16 @@
     el.timePill.textContent = t("time", 0, "00");
 
     renderAll(true);
+    requestAnimationFrame(updatePosterNavPosition);
+    requestAnimationFrame(fitPeopleHeaderStats);
     toast(t("toastReset"), 900);
   }
 
   el.langBtn.addEventListener("click", () => {
-    LANG = (LANG === "de") ? "en" : "de";
+    const idx = LANG_ORDER.indexOf(LANG);
+    LANG = LANG_ORDER[(idx + 1) % LANG_ORDER.length];
     applyI18n();
-    toast(LANG === "de" ? "Deutsch" : "English", 900);
+    toast(t("langToast"), 900);
   });
 
   el.helpBtn.addEventListener("click", () => el.helpDlg.showModal());
@@ -1494,6 +2408,14 @@
   el.resetBtn.addEventListener("click", reset);
   el.checkBtn.addEventListener("click", checkAnswers);
   el.revealBtn.addEventListener("click", revealSolution);
+  if(el.posterPrevBtn) el.posterPrevBtn.addEventListener("click", () => scrollPoster(-1));
+  if(el.posterNextBtn) el.posterNextBtn.addEventListener("click", () => scrollPoster(1));
+  if(el.posterGrid) el.posterGrid.addEventListener("scroll", () => requestAnimationFrame(updatePosterNavPosition), {passive:true});
+  window.addEventListener("resize", () => {
+    requestAnimationFrame(updatePosterNavPosition);
+    requestAnimationFrame(fitPeopleHeaderStats);
+  }, {passive:true});
+  window.addEventListener("scroll", () => requestAnimationFrame(updatePosterNavPosition), {passive:true});
 
   window.addEventListener("touchmove", (e) => {
     if(state.drag) e.preventDefault();
