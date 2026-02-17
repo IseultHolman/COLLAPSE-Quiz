@@ -593,6 +593,17 @@
       border-color: rgba(196,30,58,.26);
       background: rgba(196,30,58,.06);
     }
+    .slot.bad.wiggle{
+      animation: slotWiggle .42s ease-in-out 1;
+    }
+    @keyframes slotWiggle{
+      0%{transform: translateX(0)}
+      18%{transform: translateX(-5px)}
+      36%{transform: translateX(5px)}
+      54%{transform: translateX(-4px)}
+      72%{transform: translateX(4px)}
+      100%{transform: translateX(0)}
+    }
     .feedbackIcon{
       position:absolute;
       top:4px; right:6px;
@@ -706,6 +717,23 @@
       will-change: transform;
     }
     .ghost .chip{display:none}
+
+    .confettiLayer{
+      position: fixed;
+      inset: 0;
+      pointer-events: none;
+      overflow: hidden;
+      z-index: 1200;
+    }
+    .confettiPiece{
+      position: absolute;
+      top: -16px;
+      width: 8px;
+      height: 14px;
+      border-radius: 2px;
+      opacity: .96;
+      will-change: transform, opacity;
+    }
 
     dialog{
       border:none;
@@ -1188,6 +1216,7 @@
 <div class="toast" id="toast" role="status" aria-live="polite"></div>
 <div class="scrim" id="scrim"></div>
 <div class="ghost" id="ghost" aria-hidden="true"></div>
+<div class="confettiLayer" id="confettiLayer" aria-hidden="true"></div>
 
 <dialog id="helpDlg" aria-label="Help">
   <div class="dlgHd">
@@ -1526,6 +1555,7 @@
     live: $("#live"),
     scrim: $("#scrim"),
     ghost: $("#ghost"),
+    confettiLayer: $("#confettiLayer"),
 
     langBtn: $("#langBtn"),
     helpDlg: $("#helpDlg"),
@@ -1550,6 +1580,7 @@
 
   const DRAG_THRESHOLD_PX = 7;
   const TOUCH_DRAG_HOLD_MS = 260;
+  const CHECK_FEEDBACK_MS = 950;
 
   function isTouchMobileUI(){
     return window.matchMedia("(max-width: 980px) and (pointer: coarse)").matches;
@@ -1567,6 +1598,8 @@
     lastMove: null,
     timerStart: null,
     timerId: null,
+    checkFeedbackTimer: null,
+    confettiCleanupTimer: null,
     posterOrder: CONFIG.posters.map(p=>p.id),
     peopleOrder: CONFIG.people.map(p=>p.id),
   };
@@ -1644,6 +1677,71 @@
     if(!state.timerId) return;
     clearInterval(state.timerId);
     state.timerId = null;
+  }
+
+  function clearCheckFeedbackTimer(){
+    if(!state.checkFeedbackTimer) return;
+    clearTimeout(state.checkFeedbackTimer);
+    state.checkFeedbackTimer = null;
+  }
+
+  function clearConfetti(){
+    if(state.confettiCleanupTimer){
+      clearTimeout(state.confettiCleanupTimer);
+      state.confettiCleanupTimer = null;
+    }
+    if(el.confettiLayer) el.confettiLayer.innerHTML = "";
+  }
+
+  function launchConfetti(){
+    if(!el.confettiLayer) return;
+    clearConfetti();
+
+    const reduce = window.matchMedia && window.matchMedia("(prefers-reduced-motion: reduce)").matches;
+    if(reduce) return;
+
+    const colors = ["var(--gold)", "var(--corn)", "var(--navy)", "var(--white)"];
+    const count = 96;
+    const width = window.innerWidth;
+    const height = window.innerHeight;
+
+    for(let i=0; i<count; i++){
+      const piece = document.createElement("span");
+      piece.className = "confettiPiece";
+      piece.style.left = `${Math.random() * width}px`;
+      piece.style.background = colors[i % colors.length];
+      piece.style.width = `${6 + Math.random() * 6}px`;
+      piece.style.height = `${10 + Math.random() * 8}px`;
+      el.confettiLayer.appendChild(piece);
+
+      const drift = (Math.random() * 240) - 120;
+      const duration = 900 + Math.random() * 850;
+      const rotA = (Math.random() * 220) - 110;
+      const rotB = rotA + 360 + Math.random() * 420;
+
+      piece.animate(
+        [
+          { transform: `translate3d(0, -24px, 0) rotate(${rotA}deg)`, opacity: .98 },
+          { transform: `translate3d(${drift}px, ${height + 50}px, 0) rotate(${rotB}deg)`, opacity: 0 }
+        ],
+        { duration, easing: "cubic-bezier(.2,.7,.2,1)", fill: "forwards" }
+      );
+    }
+
+    state.confettiCleanupTimer = setTimeout(() => {
+      clearConfetti();
+    }, 2100);
+  }
+
+  function clearIncorrectAssignments(){
+    for(const poster of CONFIG.posters){
+      const tid = poster.id;
+      const pid = state.assignments[tid];
+      if(!pid) continue;
+      if(CONFIG.key[tid] !== pid){
+        state.assignments[tid] = null;
+      }
+    }
   }
 
   function countCorrect(){
@@ -2200,6 +2298,7 @@
   function checkAnswers(){
     if(state.mode === "revealed") return;
     ensureTimer();
+    clearCheckFeedbackTimer();
     state.attempts++;
     setMode("checked");
     renderAll(false);
@@ -2215,6 +2314,7 @@
       if(!pid) continue;
       const ok = CONFIG.key[tPoster.id] === pid;
       slot.classList.add(ok ? "good" : "bad");
+      if(!ok) slot.classList.add("wiggle");
 
       // Add color-blind-friendly feedback icon + SR text
       const fb = document.createElement("span");
@@ -2231,8 +2331,22 @@
       slot.appendChild(srSpan);
     }
 
+    const correct = countCorrect();
+    if(correct === CONFIG.posters.length){
+      toast(t("toastCheck", correct, CONFIG.posters.length));
+      revealSolution({ skipAttempt: true, celebrate: true });
+      return;
+    }
+
     updateStats();
-    toast(t("toastCheck", countCorrect(), CONFIG.posters.length));
+    toast(t("toastCheck", correct, CONFIG.posters.length));
+
+    state.checkFeedbackTimer = setTimeout(() => {
+      clearIncorrectAssignments();
+      setMode("guess");
+      renderAll(false);
+      state.checkFeedbackTimer = null;
+    }, CHECK_FEEDBACK_MS);
   }
 
   function rectMap(){
@@ -2242,10 +2356,11 @@
     return m;
   }
 
-  function revealSolution(){
+  function revealSolution({skipAttempt=false, celebrate=false} = {}){
     if(state.mode === "revealed") return;
     ensureTimer();
-    state.attempts++;
+    clearCheckFeedbackTimer();
+    if(!skipAttempt) state.attempts++;
 
     el.scrim.classList.add("show");
     const before = rectMap();
@@ -2257,6 +2372,7 @@
     setMode("revealed");
     renderAll(false);
     updateStats();
+    if(celebrate) launchConfetti();
 
     const reduce = window.matchMedia && window.matchMedia("(prefers-reduced-motion: reduce)").matches;
     if(reduce){
@@ -2378,6 +2494,8 @@
   }
 
   function reset(){
+    clearCheckFeedbackTimer();
+    clearConfetti();
     state.attempts = 0;
     state.selectedPersonId = null;
     state.assignments = {};
