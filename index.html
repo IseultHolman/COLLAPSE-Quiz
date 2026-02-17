@@ -1281,7 +1281,7 @@
 
   const CONFIG = {
     people: [
-      { id:"p_lorenzo",  anon:"Person A", name:"Lorenzo Ronchini, Postdoc",     role:"Postdoc · ERC-Projekt COLLAPSE",                             img:"https://www.iaka.uzh.ch/contacts/iaka/Klassische-Philologie/lronchini/photo/ronchini.jpg.jpg", website:"https://www.iaka.uzh.ch/de/klph/aboutus/personen/ronchini.html" },
+      { id:"p_lorenzo",  anon:"Person A", name:"Lorenzo Ronchini, Postdoc",     role:"Postdoc · ERC-Projekt COLLAPSE",                             img:"https://www.iaka.uzh.ch/contacts/iaka/Klassische-Philologie/lronchini/photo/ronchini.jpg.jpg", website:"https://www.iaka.uzh.ch/de/klph/aboutus/personen/ronchini.html", video:"https://uzh.mediaspace.cast.switch.ch/media/Vorstellung+COLLAPSE-Teilprojekt+Lorenzo+Ronchini+/0_yymtu22n/130620" },
       { id:"p_cynthia",  anon:"Person B", name:"Cynthia Bruhn, Postdoc",       role:"Postdoc · ERC-Projekt COLLAPSE",                         img:"https://www.iaka.uzh.ch/contacts/iaka/Klassische-Philologie/cbruhn/photo/IMG_6344.jpg.jpg", website:"https://www.iaka.uzh.ch/de/klph/research/klphs/collapse/Team/Cynthia-Bruhn.html" },
       { id:"p_maria",    anon:"Person C", name:"Maria Kofina, Doc",         role:"Doktorandin · ERC-Projekt COLLAPSE",                     img:"https://www.iaka.uzh.ch/contacts/iaka/Klassische-Philologie/mkofina/photo/kofina.jpg.jpg", website:"https://www.iaka.uzh.ch/de/klph/research/klphs/collapse/Team/Maria-Kofina.html" },
       { id:"p_valentin", anon:"Person D", name:"Valentin Dietrich, Doc",    role:"Doktorand · ERC-Projekt COLLAPSE",                       img:"https://www.iaka.uzh.ch/contacts/iaka/Klassische-Philologie/vdietrich/photo/valentin_dietrich.jpg.jpg", website:"https://www.iaka.uzh.ch/de/klph/research/klphs/collapse/Team/Valentin-Dietrich.html" },
@@ -1924,6 +1924,7 @@
               <p class="pLabel">${escapeHtml(visibleLabel)}</p>
               <p class="pSub">${escapeHtml(sub)}</p>
               ${state.mode === "revealed" && assignedP.website ? `<a href="${escapeHtml(assignedP.website)}" target="_blank" rel="noopener noreferrer" class="websiteLink">Website<span class="sr"> (${escapeHtml(t("opensNewTab"))})</span></a>` : ``}
+              ${state.mode === "revealed" && assignedP.video ? `<a href="${escapeHtml(assignedP.video)}" target="_blank" rel="noopener noreferrer" class="websiteLink">Video<span class="sr"> (${escapeHtml(t("opensNewTab"))})</span></a>` : ``}
             </div>
             ${state.mode !== "revealed" ? `<button class="removeBtn" type="button" data-remove="${tid}">${escapeHtml(t("remove"))}</button>` : ``}
           </div>
